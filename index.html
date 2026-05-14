@@ -204,11 +204,11 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .day-header{display:flex;align-items:center;gap:12px;margin:14px 0 7px;}
 .day-date{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);background:var(--red-lt);padding:4px 13px;border-radius:999px;white-space:nowrap;font-family:'Nunito',sans-serif;}
 .day-line{flex:1;height:1px;background:var(--border);}
-.match-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:11px 15px;background:var(--surface);border:1.5px solid var(--border);border-radius:11px;margin-bottom:6px;transition:all .15s;}
-.match-card:hover{border-color:var(--red);background:var(--red-lt);}
-.match-card.highlight{border-color:var(--gold-brd);background:var(--gold-bg);}
+.match-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:11px 15px;background:#ffffff;border:1.5px solid var(--border);border-radius:11px;margin-bottom:6px;transition:all .15s;}
+.match-card:hover{border-color:var(--red);background:#fff5f5;}
+.match-card.highlight{border:2.5px solid #FFE500;background:#FFFDE7;box-shadow:0 2px 12px rgba(255,229,0,0.25);}
 .match-card.is-final{border-color:#FFE066;background:linear-gradient(135deg,#7A0808,#C01010);}
-.match-card.is-third{border-top:3px solid var(--bronze);}
+.match-card.is-third{border-top:3px solid var(--bronze);background:#ffffff;}
 .match-team{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);}
 .match-team.right{text-align:right;}
 .match-card.is-final .match-team{color:#FFE066;font-size:15px;}
@@ -605,7 +605,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 
 </div>
 <script>
-var API_URL = "https://script.google.com/macros/s/AKfycbyftQlu-2QaasYtcgeklTDNTJFjkcROaVCZvdQhfUgrxYghsyYsKEROC_I-AX9AKXIxKw/exec";
+var API_URL = "https://script.google.com/macros/s/AKfycbxDYjRjDkCn38alULkQyuSbG36FDy4MO08srb7TjpM17_GDmFzdBTCh3q4KgHx4GxkV/exec";
 var ADMIN_PASSWORD = "mundial2026";
 var MAX_P = 1;
 var PUNTOS = {1:65,2:30,3:20,4:10};
@@ -956,29 +956,29 @@ document.body.appendChild(c);setTimeout(function(){if(c.parentNode)c.parentNode.
 var STAGES={grupos:{label:"Fase de Grupos",cls:"b-grupos"},r32:{label:"Ronda de 32",cls:"b-r32"},r16:{label:"Octavos de Final",cls:"b-r16"},qf:{label:"Cuartos de Final",cls:"b-qf"},sf:{label:"Semifinales",cls:"b-sf"},final:{label:"Gran Final",cls:"b-final"}};
 var FLAGS_CAL=BANDERAS;
 var CAL=[
-{s:"grupos",d:"Jue 11 Jun",m:[{n:1,g:"A",h:"México",a:"Sudáfrica",t:"3:00 PM",v:"Estadio Azteca",hl:true},{n:2,g:"A",h:"Corea del Sur",a:"Rep. Checa",t:"10:00 PM",v:"Estadio Akron"}]},
-{s:"grupos",d:"Vie 12 Jun",m:[{n:3,g:"B",h:"Canadá",a:"Bosnia y Herz.",t:"3:00 PM",v:"BMO Field, Toronto"},{n:4,g:"D",h:"Estados Unidos",a:"Paraguay",t:"9:00 PM",v:"SoFi Stadium",hl:true}]},
-{s:"grupos",d:"Sáb 13 Jun",m:[{n:5,g:"D",h:"Australia",a:"Turquía",t:"12:00 AM",v:"BC Place"},{n:6,g:"B",h:"Catar",a:"Suiza",t:"3:00 PM",v:"Levis Stadium"},{n:7,g:"C",h:"Brasil",a:"Marruecos",t:"6:00 PM",v:"MetLife Stadium",hl:true},{n:8,g:"C",h:"Haití",a:"Escocia",t:"9:00 PM",v:"Gillette Stadium"}]},
-{s:"grupos",d:"Dom 14 Jun",m:[{n:9,g:"E",h:"Alemania",a:"Curazao",t:"1:00 PM",v:"NRG Stadium"},{n:10,g:"F",h:"Países Bajos",a:"Japón",t:"4:00 PM",v:"AT&T Stadium",hl:true},{n:11,g:"E",h:"Costa de Marfil",a:"Ecuador",t:"7:00 PM",v:"Lincoln Financial",hl:true},{n:12,g:"F",h:"Suecia",a:"Túnez",t:"10:00 PM",v:"Estadio BBVA"}]},
-{s:"grupos",d:"Lun 15 Jun",m:[{n:13,g:"H",h:"España",a:"Cabo Verde",t:"12:00 PM",v:"Mercedes-Benz"},{n:14,g:"G",h:"Bélgica",a:"Egipto",t:"3:00 PM",v:"Lumen Field"},{n:15,g:"H",h:"Arabia Saudita",a:"Uruguay",t:"6:00 PM",v:"Hard Rock Stadium"},{n:16,g:"G",h:"Irán",a:"Nueva Zelanda",t:"9:00 PM",v:"SoFi Stadium"}]},
-{s:"grupos",d:"Mar 16 Jun",m:[{n:17,g:"I",h:"Francia",a:"Senegal",t:"3:00 PM",v:"MetLife Stadium",hl:true},{n:18,g:"I",h:"Iraq",a:"Noruega",t:"6:00 PM",v:"Gillette Stadium"},{n:19,g:"J",h:"Argentina",a:"Argelia",t:"9:00 PM",v:"Arrowhead Stadium",hl:true},{n:20,g:"J",h:"Austria",a:"Jordania",t:"12:00 AM",v:"Levis Stadium"}]},
-{s:"grupos",d:"Mié 17 Jun",m:[{n:21,g:"K",h:"Portugal",a:"Rep. Dem. Congo",t:"1:00 PM",v:"NRG Stadium"},{n:22,g:"L",h:"Inglaterra",a:"Croacia",t:"4:00 PM",v:"AT&T Stadium",hl:true},{n:23,g:"L",h:"Ghana",a:"Panamá",t:"7:00 PM",v:"BMO Field"},{n:24,g:"K",h:"Uzbekistán",a:"Colombia",t:"10:00 PM",v:"Estadio Azteca",hl:true}]},
-{s:"grupos",d:"Jue 18 Jun",m:[{n:25,g:"A",h:"Rep. Checa",a:"Sudáfrica",t:"12:00 PM",v:"Mercedes-Benz"},{n:26,g:"B",h:"Suiza",a:"Bosnia y Herz.",t:"3:00 PM",v:"SoFi Stadium"},{n:27,g:"B",h:"Canadá",a:"Catar",t:"6:00 PM",v:"BC Place"},{n:28,g:"A",h:"México",a:"Corea del Sur",t:"9:00 PM",v:"Estadio Akron",hl:true}]},
-{s:"grupos",d:"Vie 19 Jun",m:[{n:29,g:"D",h:"Turquía",a:"Paraguay",t:"12:00 AM",v:"Levis Stadium"},{n:30,g:"D",h:"Estados Unidos",a:"Australia",t:"3:00 PM",v:"Lumen Field"},{n:31,g:"C",h:"Escocia",a:"Marruecos",t:"6:00 PM",v:"Gillette Stadium"},{n:32,g:"C",h:"Brasil",a:"Haití",t:"9:00 PM",v:"Lincoln Financial",hl:true}]},
-{s:"grupos",d:"Sáb 20 Jun",m:[{n:33,g:"F",h:"Túnez",a:"Japón",t:"12:00 AM",v:"Estadio BBVA"},{n:34,g:"F",h:"Países Bajos",a:"Suecia",t:"1:00 PM",v:"NRG Stadium"},{n:35,g:"E",h:"Alemania",a:"Costa de Marfil",t:"4:00 PM",v:"BMO Field"},{n:36,g:"E",h:"Ecuador",a:"Curazao",t:"8:00 PM",v:"Arrowhead Stadium",hl:true}]},
-{s:"grupos",d:"Dom 21 Jun",m:[{n:37,g:"H",h:"España",a:"Arabia Saudita",t:"12:00 PM",v:"Mercedes-Benz"},{n:38,g:"G",h:"Bélgica",a:"Irán",t:"3:00 PM",v:"SoFi Stadium"},{n:39,g:"H",h:"Uruguay",a:"Cabo Verde",t:"6:00 PM",v:"Hard Rock Stadium"},{n:40,g:"G",h:"Nueva Zelanda",a:"Egipto",t:"9:00 PM",v:"BC Place"}]},
-{s:"grupos",d:"Lun 22 Jun",m:[{n:41,g:"J",h:"Argentina",a:"Austria",t:"1:00 PM",v:"AT&T Stadium",hl:true},{n:42,g:"I",h:"Francia",a:"Iraq",t:"5:00 PM",v:"Lincoln Financial"},{n:43,g:"I",h:"Noruega",a:"Senegal",t:"8:00 PM",v:"MetLife Stadium"},{n:44,g:"J",h:"Jordania",a:"Argelia",t:"11:00 PM",v:"Levis Stadium"}]},
-{s:"grupos",d:"Mar 23 Jun",m:[{n:45,g:"K",h:"Portugal",a:"Uzbekistán",t:"1:00 PM",v:"NRG Stadium"},{n:46,g:"L",h:"Inglaterra",a:"Ghana",t:"4:00 PM",v:"Gillette Stadium"},{n:47,g:"L",h:"Panamá",a:"Croacia",t:"7:00 PM",v:"BMO Field"},{n:48,g:"K",h:"Colombia",a:"Rep. Dem. Congo",t:"10:00 PM",v:"Estadio Akron",hl:true}]},
-{s:"grupos",d:"Mié 24 Jun",m:[{n:49,g:"B",h:"Suiza",a:"Canadá",t:"3:00 PM",v:"BC Place"},{n:50,g:"B",h:"Bosnia y Herz.",a:"Catar",t:"3:00 PM",v:"Lumen Field"},{n:51,g:"C",h:"Escocia",a:"Brasil",t:"6:00 PM",v:"Hard Rock Stadium"},{n:52,g:"C",h:"Marruecos",a:"Haití",t:"6:00 PM",v:"Mercedes-Benz"},{n:53,g:"A",h:"Rep. Checa",a:"México",t:"9:00 PM",v:"Estadio Azteca",hl:true},{n:54,g:"A",h:"Sudáfrica",a:"Corea del Sur",t:"9:00 PM",v:"Estadio BBVA"}]},
-{s:"grupos",d:"Jue 25 Jun",m:[{n:55,g:"E",h:"Curazao",a:"Costa de Marfil",t:"4:00 PM",v:"Lincoln Financial"},{n:56,g:"E",h:"Ecuador",a:"Alemania",t:"4:00 PM",v:"MetLife Stadium",hl:true},{n:57,g:"F",h:"Japón",a:"Suecia",t:"7:00 PM",v:"AT&T Stadium"},{n:58,g:"F",h:"Túnez",a:"Países Bajos",t:"7:00 PM",v:"Arrowhead Stadium"},{n:59,g:"D",h:"Turquía",a:"Estados Unidos",t:"10:00 PM",v:"SoFi Stadium"},{n:60,g:"D",h:"Paraguay",a:"Australia",t:"10:00 PM",v:"Levis Stadium"}]},
-{s:"grupos",d:"Vie 26 Jun",m:[{n:61,g:"I",h:"Noruega",a:"Francia",t:"3:00 PM",v:"Gillette Stadium"},{n:62,g:"I",h:"Senegal",a:"Iraq",t:"3:00 PM",v:"BMO Field"},{n:63,g:"H",h:"Cabo Verde",a:"Arabia Saudita",t:"8:00 PM",v:"NRG Stadium"},{n:64,g:"H",h:"Uruguay",a:"España",t:"8:00 PM",v:"Estadio Akron",hl:true},{n:65,g:"G",h:"Egipto",a:"Irán",t:"11:00 PM",v:"Lumen Field"},{n:66,g:"G",h:"Nueva Zelanda",a:"Bélgica",t:"11:00 PM",v:"BC Place"}]},
-{s:"grupos",d:"Sáb 27 Jun",m:[{n:67,g:"L",h:"Panamá",a:"Inglaterra",t:"5:00 PM",v:"MetLife Stadium"},{n:68,g:"L",h:"Croacia",a:"Ghana",t:"5:00 PM",v:"Lincoln Financial"},{n:69,g:"K",h:"Colombia",a:"Portugal",t:"7:30 PM",v:"Hard Rock Stadium",hl:true},{n:70,g:"K",h:"Rep. Dem. Congo",a:"Uzbekistán",t:"7:30 PM",v:"Mercedes-Benz"},{n:71,g:"J",h:"Argelia",a:"Austria",t:"10:00 PM",v:"Arrowhead Stadium"},{n:72,g:"J",h:"Jordania",a:"Argentina",t:"10:00 PM",v:"AT&T Stadium",hl:true}]},
+{s:"grupos",d:"Jue 11 Jun",m:[{n:1,g:"A",h:"México",a:"Sudáfrica",t:"4:00 PM",v:"Estadio Azteca",hl:true},{n:2,g:"A",h:"Corea del Sur",a:"Rep. Checa",t:"11:00 PM",v:"Estadio Akron"}]},
+{s:"grupos",d:"Vie 12 Jun",m:[{n:3,g:"B",h:"Canadá",a:"Bosnia y Herz.",t:"4:00 PM",v:"BMO Field, Toronto"},{n:4,g:"D",h:"Estados Unidos",a:"Paraguay",t:"10:00 PM",v:"SoFi Stadium",hl:true}]},
+{s:"grupos",d:"Sáb 13 Jun",m:[{n:5,g:"D",h:"Australia",a:"Turquía",t:"1:00 AM",v:"BC Place"},{n:6,g:"B",h:"Catar",a:"Suiza",t:"4:00 PM",v:"Levis Stadium"},{n:7,g:"C",h:"Brasil",a:"Marruecos",t:"7:00 PM",v:"MetLife Stadium",hl:true},{n:8,g:"C",h:"Haití",a:"Escocia",t:"10:00 PM",v:"Gillette Stadium"}]},
+{s:"grupos",d:"Dom 14 Jun",m:[{n:9,g:"E",h:"Alemania",a:"Curazao",t:"2:00 PM",v:"NRG Stadium"},{n:10,g:"F",h:"Países Bajos",a:"Japón",t:"5:00 PM",v:"AT&T Stadium",hl:true},{n:11,g:"E",h:"Costa de Marfil",a:"Ecuador",t:"8:00 PM",v:"Lincoln Financial",hl:true},{n:12,g:"F",h:"Suecia",a:"Túnez",t:"11:00 PM",v:"Estadio BBVA"}]},
+{s:"grupos",d:"Lun 15 Jun",m:[{n:13,g:"H",h:"España",a:"Cabo Verde",t:"1:00 PM",v:"Mercedes-Benz"},{n:14,g:"G",h:"Bélgica",a:"Egipto",t:"4:00 PM",v:"Lumen Field"},{n:15,g:"H",h:"Arabia Saudita",a:"Uruguay",t:"7:00 PM",v:"Hard Rock Stadium"},{n:16,g:"G",h:"Irán",a:"Nueva Zelanda",t:"10:00 PM",v:"SoFi Stadium"}]},
+{s:"grupos",d:"Mar 16 Jun",m:[{n:17,g:"I",h:"Francia",a:"Senegal",t:"4:00 PM",v:"MetLife Stadium",hl:true},{n:18,g:"I",h:"Iraq",a:"Noruega",t:"7:00 PM",v:"Gillette Stadium"},{n:19,g:"J",h:"Argentina",a:"Argelia",t:"10:00 PM",v:"Arrowhead Stadium",hl:true},{n:20,g:"J",h:"Austria",a:"Jordania",t:"1:00 AM",v:"Levis Stadium"}]},
+{s:"grupos",d:"Mié 17 Jun",m:[{n:21,g:"K",h:"Portugal",a:"Rep. Dem. Congo",t:"2:00 PM",v:"NRG Stadium"},{n:22,g:"L",h:"Inglaterra",a:"Croacia",t:"5:00 PM",v:"AT&T Stadium",hl:true},{n:23,g:"L",h:"Ghana",a:"Panamá",t:"8:00 PM",v:"BMO Field"},{n:24,g:"K",h:"Uzbekistán",a:"Colombia",t:"11:00 PM",v:"Estadio Azteca",hl:true}]},
+{s:"grupos",d:"Jue 18 Jun",m:[{n:25,g:"A",h:"Rep. Checa",a:"Sudáfrica",t:"1:00 PM",v:"Mercedes-Benz"},{n:26,g:"B",h:"Suiza",a:"Bosnia y Herz.",t:"4:00 PM",v:"SoFi Stadium"},{n:27,g:"B",h:"Canadá",a:"Catar",t:"7:00 PM",v:"BC Place"},{n:28,g:"A",h:"México",a:"Corea del Sur",t:"10:00 PM",v:"Estadio Akron",hl:true}]},
+{s:"grupos",d:"Vie 19 Jun",m:[{n:29,g:"D",h:"Turquía",a:"Paraguay",t:"1:00 AM",v:"Levis Stadium"},{n:30,g:"D",h:"Estados Unidos",a:"Australia",t:"4:00 PM",v:"Lumen Field"},{n:31,g:"C",h:"Escocia",a:"Marruecos",t:"7:00 PM",v:"Gillette Stadium"},{n:32,g:"C",h:"Brasil",a:"Haití",t:"10:00 PM",v:"Lincoln Financial",hl:true}]},
+{s:"grupos",d:"Sáb 20 Jun",m:[{n:33,g:"F",h:"Túnez",a:"Japón",t:"1:00 AM",v:"Estadio BBVA"},{n:34,g:"F",h:"Países Bajos",a:"Suecia",t:"2:00 PM",v:"NRG Stadium"},{n:35,g:"E",h:"Alemania",a:"Costa de Marfil",t:"5:00 PM",v:"BMO Field"},{n:36,g:"E",h:"Ecuador",a:"Curazao",t:"9:00 PM",v:"Arrowhead Stadium",hl:true}]},
+{s:"grupos",d:"Dom 21 Jun",m:[{n:37,g:"H",h:"España",a:"Arabia Saudita",t:"1:00 PM",v:"Mercedes-Benz"},{n:38,g:"G",h:"Bélgica",a:"Irán",t:"4:00 PM",v:"SoFi Stadium"},{n:39,g:"H",h:"Uruguay",a:"Cabo Verde",t:"7:00 PM",v:"Hard Rock Stadium"},{n:40,g:"G",h:"Nueva Zelanda",a:"Egipto",t:"10:00 PM",v:"BC Place"}]},
+{s:"grupos",d:"Lun 22 Jun",m:[{n:41,g:"J",h:"Argentina",a:"Austria",t:"2:00 PM",v:"AT&T Stadium",hl:true},{n:42,g:"I",h:"Francia",a:"Iraq",t:"6:00 PM",v:"Lincoln Financial"},{n:43,g:"I",h:"Noruega",a:"Senegal",t:"9:00 PM",v:"MetLife Stadium"},{n:44,g:"J",h:"Jordania",a:"Argelia",t:"12:00 AM",v:"Levis Stadium"}]},
+{s:"grupos",d:"Mar 23 Jun",m:[{n:45,g:"K",h:"Portugal",a:"Uzbekistán",t:"2:00 PM",v:"NRG Stadium"},{n:46,g:"L",h:"Inglaterra",a:"Ghana",t:"5:00 PM",v:"Gillette Stadium"},{n:47,g:"L",h:"Panamá",a:"Croacia",t:"8:00 PM",v:"BMO Field"},{n:48,g:"K",h:"Colombia",a:"Rep. Dem. Congo",t:"11:00 PM",v:"Estadio Akron",hl:true}]},
+{s:"grupos",d:"Mié 24 Jun",m:[{n:49,g:"B",h:"Suiza",a:"Canadá",t:"4:00 PM",v:"BC Place"},{n:50,g:"B",h:"Bosnia y Herz.",a:"Catar",t:"4:00 PM",v:"Lumen Field"},{n:51,g:"C",h:"Escocia",a:"Brasil",t:"7:00 PM",v:"Hard Rock Stadium"},{n:52,g:"C",h:"Marruecos",a:"Haití",t:"7:00 PM",v:"Mercedes-Benz"},{n:53,g:"A",h:"Rep. Checa",a:"México",t:"10:00 PM",v:"Estadio Azteca",hl:true},{n:54,g:"A",h:"Sudáfrica",a:"Corea del Sur",t:"10:00 PM",v:"Estadio BBVA"}]},
+{s:"grupos",d:"Jue 25 Jun",m:[{n:55,g:"E",h:"Curazao",a:"Costa de Marfil",t:"5:00 PM",v:"Lincoln Financial"},{n:56,g:"E",h:"Ecuador",a:"Alemania",t:"5:00 PM",v:"MetLife Stadium",hl:true},{n:57,g:"F",h:"Japón",a:"Suecia",t:"8:00 PM",v:"AT&T Stadium"},{n:58,g:"F",h:"Túnez",a:"Países Bajos",t:"8:00 PM",v:"Arrowhead Stadium"},{n:59,g:"D",h:"Turquía",a:"Estados Unidos",t:"11:00 PM",v:"SoFi Stadium"},{n:60,g:"D",h:"Paraguay",a:"Australia",t:"11:00 PM",v:"Levis Stadium"}]},
+{s:"grupos",d:"Vie 26 Jun",m:[{n:61,g:"I",h:"Noruega",a:"Francia",t:"4:00 PM",v:"Gillette Stadium"},{n:62,g:"I",h:"Senegal",a:"Iraq",t:"4:00 PM",v:"BMO Field"},{n:63,g:"H",h:"Cabo Verde",a:"Arabia Saudita",t:"9:00 PM",v:"NRG Stadium"},{n:64,g:"H",h:"Uruguay",a:"España",t:"9:00 PM",v:"Estadio Akron",hl:true},{n:65,g:"G",h:"Egipto",a:"Irán",t:"12:00 AM",v:"Lumen Field"},{n:66,g:"G",h:"Nueva Zelanda",a:"Bélgica",t:"12:00 AM",v:"BC Place"}]},
+{s:"grupos",d:"Sáb 27 Jun",m:[{n:67,g:"L",h:"Panamá",a:"Inglaterra",t:"6:00 PM",v:"MetLife Stadium"},{n:68,g:"L",h:"Croacia",a:"Ghana",t:"6:00 PM",v:"Lincoln Financial"},{n:69,g:"K",h:"Colombia",a:"Portugal",t:"8:30 PM",v:"Hard Rock Stadium",hl:true},{n:70,g:"K",h:"Rep. Dem. Congo",a:"Uzbekistán",t:"8:30 PM",v:"Mercedes-Benz"},{n:71,g:"J",h:"Argelia",a:"Austria",t:"11:00 PM",v:"Arrowhead Stadium"},{n:72,g:"J",h:"Jordania",a:"Argentina",t:"11:00 PM",v:"AT&T Stadium",hl:true}]},
 {s:"r32",d:"28 Jun – 3 Jul",m:[{n:73,h:"2° Gr.A",a:"2° Gr.B",t:"",v:"SoFi Stadium"},{n:74,h:"1° Gr.C",a:"2° Gr.F",t:"",v:"NRG Stadium"},{n:75,h:"1° Gr.E",a:"Mejor 3°",t:"",v:"Gillette Stadium"},{n:76,h:"1° Gr.F",a:"2° Gr.C",t:"",v:"Estadio BBVA"},{n:77,h:"1° Gr.I",a:"Mejor 3°",t:"",v:"MetLife Stadium"},{n:78,h:"2° Gr.E",a:"2° Gr.I",t:"",v:"AT&T Stadium"},{n:79,h:"1° Gr.A",a:"Mejor 3°",t:"",v:"Estadio Azteca"},{n:80,h:"1° Gr.L",a:"Mejor 3°",t:"",v:"Mercedes-Benz"},{n:81,h:"1° Gr.D",a:"Mejor 3°",t:"",v:"Levis Stadium"},{n:82,h:"1° Gr.G",a:"Mejor 3°",t:"",v:"Lumen Field"},{n:83,h:"2° Gr.K",a:"2° Gr.L",t:"",v:"BMO Field"},{n:84,h:"1° Gr.H",a:"2° Gr.J",t:"",v:"SoFi Stadium"},{n:85,h:"1° Gr.B",a:"Mejor 3°",t:"",v:"BC Place"},{n:86,h:"1° Gr.J",a:"2° Gr.H",t:"",v:"Hard Rock Stadium"},{n:87,h:"1° Gr.K",a:"Mejor 3°",t:"",v:"Arrowhead Stadium"},{n:88,h:"2° Gr.D",a:"2° Gr.G",t:"",v:"AT&T Stadium"}]},
 {s:"r16",d:"4 – 7 Jul",m:[{n:89,h:"W74",a:"W77",t:"",v:"Lincoln Financial"},{n:90,h:"W73",a:"W75",t:"",v:"NRG Stadium"},{n:91,h:"W76",a:"W78",t:"",v:"MetLife Stadium"},{n:92,h:"W79",a:"W80",t:"",v:"Estadio Azteca"},{n:93,h:"W83",a:"W84",t:"",v:"AT&T Stadium"},{n:94,h:"W81",a:"W82",t:"",v:"Lumen Field"},{n:95,h:"W86",a:"W88",t:"",v:"Mercedes-Benz"},{n:96,h:"W85",a:"W87",t:"",v:"BC Place"}]},
 {s:"qf",d:"9 – 11 Jul",m:[{n:97,h:"W89",a:"W90",t:"",v:"Gillette Stadium"},{n:98,h:"W93",a:"W94",t:"",v:"SoFi Stadium"},{n:99,h:"W91",a:"W92",t:"",v:"Hard Rock Stadium"},{n:100,h:"W95",a:"W96",t:"",v:"Arrowhead Stadium"}]},
-{s:"sf",d:"14 – 15 Jul",m:[{n:101,h:"W97",a:"W98",t:"3:00 PM",v:"AT&T Stadium, Dallas"},{n:102,h:"W99",a:"W100",t:"3:00 PM",v:"Mercedes-Benz, Atlanta"}]},
-{s:"final",d:"Sáb 18 Jul",m:[{n:103,h:"Semifinalista 3°",a:"Semifinalista 4°",t:"5:00 PM",v:"Hard Rock Stadium, Miami",third:true}]},
-{s:"final",d:"Dom 19 Jul 🏆",m:[{n:104,h:"CAMPEÓN",a:"SUBCAMPEÓN",t:"3:00 PM",v:"MetLife Stadium, New Jersey",final:true}]}
+{s:"sf",d:"14 – 15 Jul",m:[{n:101,h:"W97",a:"W98",t:"4:00 PM",v:"AT&T Stadium, Dallas"},{n:102,h:"W99",a:"W100",t:"4:00 PM",v:"Mercedes-Benz, Atlanta"}]},
+{s:"final",d:"Sáb 18 Jul",m:[{n:103,h:"Semifinalista 3°",a:"Semifinalista 4°",t:"6:00 PM",v:"Hard Rock Stadium, Miami",third:true}]},
+{s:"final",d:"Dom 19 Jul 🏆",m:[{n:104,h:"CAMPEÓN",a:"SUBCAMPEÓN",t:"4:00 PM",v:"MetLife Stadium, New Jersey",final:true}]}
 ];
 
 var calFilter="all";
@@ -996,12 +996,14 @@ html+='<div class="day-header"><span class="day-date">📅 '+day.d+'</span><div 
 for(var mi=0;mi<day.m.length;mi++){
 var m=day.m[mi];
 var cardCls="match-card";
-if(m.final)cardCls+=" is-final";else if(m.third)cardCls+=" is-third";else if(m.hl)cardCls+=" highlight";
+var esEcuador=(m.h==="Ecuador"||m.a==="Ecuador");
+if(m.final)cardCls+=" is-final";else if(m.third)cardCls+=" is-third";else if(esEcuador)cardCls+=" highlight";
 var hf=(FLAGS_CAL[m.h]||"")+" ",af=(FLAGS_CAL[m.a]||"")+" ";
 var grp=m.g?" · G"+m.g:"";
-html+='<div class="'+cardCls+'"><div class="match-team right">'+hf+m.h+'</div>';
+var ecuBadge=esEcuador&&!m.final&&!m.third?'<div style="text-align:center;margin-bottom:3px;"><span style="background:#FFE500;color:#4A3000;font-size:9px;font-weight:900;font-family:\'Nunito\',sans-serif;letter-spacing:1px;padding:2px 8px;border-radius:99px;text-transform:uppercase;">🇪🇨 Ecuador</span></div>':'';
+html+=ecuBadge+'<div class="'+cardCls+'"><div class="match-team right">'+hf+m.h+'</div>';
 html+='<div class="match-center"><div class="match-num">M'+m.n+grp+'</div><div class="match-vs">VS</div>';
-if(m.t)html+='<div class="match-time">'+m.t+' ET</div>';
+if(m.t)html+='<div class="match-time">'+m.t+' ECU</div>';
 html+='<div class="match-venue">'+m.v+'</div></div>';
 html+='<div class="match-team">'+af+m.a+'</div></div>';
 }
