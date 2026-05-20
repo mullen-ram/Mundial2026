@@ -440,7 +440,6 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <option value="">Selecciona tu país...</option>
           <option value="Ecuador">🇪🇨 Ecuador</option>
           <option value="Panamá">🇵🇦 Panamá</option>
-          <option value="Otro">🌎 Otro</option>
         </select>
       </div>
     </div>
@@ -704,6 +703,79 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
         <button class="btn btn-primary" onclick="guardarResultados()">💾 GUARDAR Y RECALCULAR PUNTOS</button>
       </div>
 
+      <!-- Marcadores reales Ecuador y Panamá -->
+      <div class="card">
+        <div class="card-title">⚽ Resultados Reales — Ecuador &amp; Panamá</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Ingresa el marcador real de cada partido. Al guardar se suman <strong>5 puntos</strong> por cada marcador que coincida con el pronóstico del colaborador.</p>
+
+        <!-- Ecuador -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:18px;">🇪🇨</span>
+          <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:14px;color:var(--red);">Ecuador</span>
+        </div>
+        <div class="result-slots" style="margin-bottom:18px;">
+          <div class="form-group">
+            <label style="font-size:12px;">🇨🇮 Costa de Marfil vs Ecuador 🇪🇨<br><span style="color:var(--muted);font-size:11px;">Dom 14 Jun · 8:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-ecu1h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-ecu1a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇪🇨 Ecuador vs Curazao 🇨🇼<br><span style="color:var(--muted);font-size:11px;">Sáb 20 Jun · 9:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-ecu2h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-ecu2a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇪🇨 Ecuador vs Alemania 🇩🇪<br><span style="color:var(--muted);font-size:11px;">Jue 25 Jun · 5:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-ecu3h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-ecu3a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Panamá -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:18px;">🇵🇦</span>
+          <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:14px;color:#D21034;">Panamá</span>
+        </div>
+        <div class="result-slots" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:12px;">🇬🇭 Ghana vs Panamá 🇵🇦<br><span style="color:var(--muted);font-size:11px;">Mié 17 Jun · 8:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-pan1h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-pan1a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇵🇦 Panamá vs Croacia 🇭🇷<br><span style="color:var(--muted);font-size:11px;">Mar 23 Jun · 8:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-pan2h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-pan2a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇵🇦 Panamá vs Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿<br><span style="color:var(--muted);font-size:11px;">Sáb 27 Jun · 6:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-pan3h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-pan3a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+        </div>
+
+        <div id="alert-marcadores" class="alert"></div>
+        <button class="btn btn-primary" onclick="guardarMarcadoresReales()">💾 GUARDAR MARCADORES Y RECALCULAR</button>
+      </div>
+
       <!-- Lista de participantes -->
       <div class="card">
         <div class="card-title" style="justify-content:space-between;flex-wrap:wrap;gap:8px;">
@@ -875,8 +947,8 @@ if(err||!data||!data.ok){hideLoading();btn.disabled=false;showAlert(alertEl,"err
 var count=data.count||0;
 if(count>=MAX_P){hideLoading();btn.disabled=false;showAlert(alertEl,"error","⚠️ Esta cédula ya tiene un pronóstico registrado. Solo se permite una participación por colaborador.");return;}
 var body={nombre:nombre,contacto:cedula,cedula:cedula,pais:pais,participacion:1,pred1:p1,pred2:p2,pred3:p3,pred4:p4,
-ecu1:SCORES.ecu1h+"-"+SCORES.ecu1a,ecu2:SCORES.ecu2h+"-"+SCORES.ecu2a,ecu3:SCORES.ecu3h+"-"+SCORES.ecu3a,
-pan1:SCORES.pan1h+"-"+SCORES.pan1a,pan2:SCORES.pan2h+"-"+SCORES.pan2a,pan3:SCORES.pan3h+"-"+SCORES.pan3a,
+ecu1:scoreVal('ecu1h','ecu1a'),ecu2:scoreVal('ecu2h','ecu2a'),ecu3:scoreVal('ecu3h','ecu3a'),
+pan1:scoreVal('pan1h','pan1a'),pan2:scoreVal('pan2h','pan2a'),pan3:scoreVal('pan3h','pan3a'),
 fecha:new Date().toLocaleDateString("es-EC")};
 showLoading("Guardando pronóstico…");
 apiPost(body,function(err2,data2){
@@ -887,7 +959,8 @@ confetti();
 ["reg-nombre","reg-cedula"].forEach(function(id){document.getElementById(id).value="";});
 document.getElementById("reg-pais").value="";
 ["pred-1","pred-2","pred-3","pred-4"].forEach(function(id){document.getElementById(id).value="";});
-Object.keys(SCORES).forEach(function(k){SCORES[k]=0;document.getElementById(k).textContent="0";});
+Object.keys(SCORES).forEach(function(k){SCORES[k]=0;var el=document.getElementById(k);if(el)el.textContent="0";});
+SCORES_TOUCHED={};
 });
 });
 }
@@ -933,8 +1006,16 @@ content.innerHTML=html;
 }
 
 var SCORES={ecu1h:0,ecu1a:0,ecu2h:0,ecu2a:0,ecu3h:0,ecu3a:0,pan1h:0,pan1a:0,pan2h:0,pan2a:0,pan3h:0,pan3a:0};
+function scoreVal(hid,aid){
+  var h=SCORES[hid]||0, a=SCORES[aid]||0;
+  var hMod=SCORES_TOUCHED[hid]||false, aMod=SCORES_TOUCHED[aid]||false;
+  if(!hMod&&!aMod) return "";
+  return h+"-"+a;
+}
+var SCORES_TOUCHED={};
 function changeScore(id,delta){
   SCORES[id]=Math.max(0,Math.min(20,(SCORES[id]||0)+delta));
+  SCORES_TOUCHED[id]=true;
   var el=document.getElementById(id);
   if(el){
     el.textContent=SCORES[id];
@@ -1053,7 +1134,14 @@ html+='<td><strong style="font-family:\'Nunito\',sans-serif;font-size:14px;">'+e
 html+='<td style="font-size:12px;color:var(--muted);white-space:nowrap;">'+escHtml(p.cedula||p.contacto||'–')+'</td>';
 html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.pais||p.centro||'–')+'</td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'?')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'?')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'?')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'?')+'</span></div></td>';
-html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div style="display:flex;flex-direction:column;gap:2px;"><span>🇨🇮v🇪🇨 '+escHtml(p.ecu1||'–')+'</span><span>🇪🇨v🇨🇼 '+escHtml(p.ecu2||'–')+'</span><span>🇪🇨v🇩🇪 '+escHtml(p.ecu3||'–')+'</span><span>🇬🇭v🇵🇦 '+escHtml(p.pan1||'–')+'</span><span>🇵🇦v🇭🇷 '+escHtml(p.pan2||'–')+'</span><span>🇵🇦v🏴󠁧󠁢󠁥󠁮󠁧󠁿 '+escHtml(p.pan3||'–')+'</span></div></td>';
+html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div style="display:flex;flex-direction:column;gap:2px;">'+
+'<span>🇨🇮v🇪🇨 '+fmtScore(p.ecu1)+'</span>'+
+'<span>🇪🇨v🇨🇼 '+fmtScore(p.ecu2)+'</span>'+
+'<span>🇪🇨v🇩🇪 '+fmtScore(p.ecu3)+'</span>'+
+'<span>🇬🇭v🇵🇦 '+fmtScore(p.pan1)+'</span>'+
+'<span>🇵🇦v🇭🇷 '+fmtScore(p.pan2)+'</span>'+
+'<span>🇵🇦v🏴󠁧󠁢󠁥󠁮󠁧󠁿 '+fmtScore(p.pan3)+'</span>'+
+'</div></td>';
 html+='<td style="font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;">'+escHtml(p.fecha||'–')+'</td>';
 html+='<td style="text-align:right;"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
 html+='</tr>';
@@ -1063,6 +1151,30 @@ el.innerHTML=html;
 }
 
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
+
+function guardarMarcadoresReales(){
+var alertEl=document.getElementById("alert-marcadores");
+var ecu1=getVal("real-ecu1h")+"-"+getVal("real-ecu1a");
+var ecu2=getVal("real-ecu2h")+"-"+getVal("real-ecu2a");
+var ecu3=getVal("real-ecu3h")+"-"+getVal("real-ecu3a");
+var pan1=getVal("real-pan1h")+"-"+getVal("real-pan1a");
+var pan2=getVal("real-pan2h")+"-"+getVal("real-pan2a");
+var pan3=getVal("real-pan3h")+"-"+getVal("real-pan3a");
+showLoading("Guardando marcadores y recalculando…");
+var body={action:"saveMarcadores",ecu1:ecu1,ecu2:ecu2,ecu3:ecu3,pan1:pan1,pan2:pan2,pan3:pan3,
+r1:document.getElementById("res-1").value,
+r2:document.getElementById("res-2").value,
+r3:document.getElementById("res-3").value,
+r4:document.getElementById("res-4").value};
+apiPost(body,function(err,data){
+hideLoading();
+if(err||!data||!data.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Verifica la conexión.");return;}
+showAlert(alertEl,"success","✅ Marcadores guardados. Puntos recalculados correctamente.");
+cargarAdminLista();
+});
+}
+function getVal(id){var el=document.getElementById(id);return el&&el.value!==""?parseInt(el.value)||0:0;}
 
 function guardarResultados(){
 var r1=document.getElementById("res-1").value;var r2=document.getElementById("res-2").value;
