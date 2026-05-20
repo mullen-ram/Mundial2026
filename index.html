@@ -222,7 +222,38 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .match-venue{font-size:10px;color:var(--muted);text-align:center;line-height:1.3;font-weight:700;}
 @media(max-width:500px){.match-venue{display:none;}.match-center{min-width:56px;}.match-card{padding:9px;}.match-team{font-size:12px;}}
 
-/* ── RESPONSIVE MULTI-DISPOSITIVO ───────────────────────────────── */
+/* ── PREDICCIÓN DE MARCADORES ───────────────────────────────── */
+.match-pred-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+.match-pred-card{background:#fff;border:2px solid #FFE500;border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(255,229,0,0.15);}
+.match-pred-card.pan{border-color:#D21034;box-shadow:0 2px 10px rgba(210,16,52,0.12);}
+.mpc-date{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.5px;text-align:center;margin-bottom:12px;text-transform:uppercase;}
+.mpc-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:12px;}
+.mpc-team{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.mpc-team.right{align-items:flex-end;}
+.mpc-team.left{align-items:flex-start;}
+.mpc-flag{font-size:28px;line-height:1;}
+.mpc-name{font-size:11px;font-weight:700;color:var(--text2);text-align:center;line-height:1.2;}
+.mpc-score-box{display:flex;align-items:center;gap:5px;background:var(--bg);border-radius:12px;padding:8px 10px;justify-content:center;}
+.mpc-score-box .mpc-btn{width:30px;height:30px;font-size:16px;}
+.mpc-digit{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:var(--text);min-width:28px;text-align:center;line-height:1;}
+.mpc-sep{font-size:28px;font-weight:900;color:var(--muted);line-height:1;}
+.mpc-btn{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.mpc-btn.minus{background:#FFE9E9;color:#D21034;}
+.mpc-btn.plus{background:#E8F5E9;color:#2E7D32;}
+.mpc-btn:active{transform:scale(.88);}
+.mpc-controls{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;}
+.mpc-controls .mpc-btn{width:100%;height:34px;border-radius:8px;font-size:11px;font-weight:700;font-family:'Nunito Sans',sans-serif;}
+.mpc-controls .left-minus{background:#FFF3E0;color:#E65100;}
+.mpc-controls .right-plus{background:#E3F2FD;color:#1565C0;}
+@media(max-width:480px){
+  .mpc-flag{font-size:22px;}
+  .mpc-digit{font-size:26px;min-width:22px;}
+  .mpc-sep{font-size:22px;}
+  .mpc-name{font-size:10px;}
+  .mpc-controls{grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;}
+  .mpc-controls .mpc-btn{font-size:10px;height:30px;}
+}
+
 
 /* Tablet: 641px – 1024px */
 @media(min-width:641px) and (max-width:1024px){
@@ -373,6 +404,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
     <button class="tab-btn active" onclick="switchTab('registro',this)">⚽ Mi Pronóstico</button>
     <button class="tab-btn" onclick="switchTab('ranking',this)">🏆 Líderes</button>
     <button class="tab-btn" onclick="switchTab('calendario',this)">📅 Calendario</button>
+    <button class="tab-btn" onclick="switchTab('reglamento',this)">📋 Reglamento</button>
     <button class="tab-btn" onclick="switchTab('admin',this)">⚙️ Admin</button>
   </div>
 </div>
@@ -390,6 +422,153 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       </div>
     </div>
 
+    <div class="card">
+      <div class="card-title">👤 Datos del Colaborador</div>
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Nombre completo *</label>
+          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez">
+        </div>
+        <div class="form-group">
+          <label>Número de Cédula *</label>
+          <input type="text" id="reg-cedula" placeholder="Ej: 1712345678" maxlength="13">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>País *</label>
+        <select id="reg-pais">
+          <option value="">Selecciona tu país...</option>
+          <option value="Ecuador">🇪🇨 Ecuador</option>
+          <option value="Panamá">🇵🇦 Panamá</option>
+          <option value="Otro">🌎 Otro</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚽ Tu Pronóstico — Fase Final</div>
+      <div class="prediction-slots">
+        <div class="slot slot-1"><span class="slot-num">1</span><span class="slot-medal">🥇</span><div class="slot-label">Campeón</div><div class="slot-pts">65 puntos si aciertas</div><select id="pred-1"><option value="">Selecciona un país...</option></select></div>
+        <div class="slot slot-2"><span class="slot-num">2</span><span class="slot-medal">🥈</span><div class="slot-label">Subcampeón</div><div class="slot-pts">30 puntos si aciertas</div><select id="pred-2"><option value="">Selecciona un país...</option></select></div>
+        <div class="slot slot-3"><span class="slot-num">3</span><span class="slot-medal">🥉</span><div class="slot-label">3er Puesto</div><div class="slot-pts">20 puntos si aciertas</div><select id="pred-3"><option value="">Selecciona un país...</option></select></div>
+        <div class="slot slot-4"><span class="slot-num">4</span><span class="slot-medal">4️⃣</span><div class="slot-label">4to Puesto</div><div class="slot-pts">10 puntos si aciertas</div><select id="pred-4"><option value="">Selecciona un país...</option></select></div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS FASE DE GRUPOS -->
+    <div class="card">
+      <div class="card-title">🎯 Predice los Resultados — Fase de Grupos</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">Ingresa el marcador exacto de cada partido de <strong>Ecuador</strong> y <strong>Panamá</strong>. ¡5 puntos extra por cada resultado exacto!</p>
+
+      <!-- Ecuador -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-size:20px;">🇪🇨</span>
+        <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:15px;color:var(--red);">Ecuador — Fase de Grupos</span>
+      </div>
+
+      <div class="match-pred-list">
+
+        <div class="match-pred-card" id="mpc-ecu-1">
+          <div class="mpc-date">Dom 14 Jun · 8:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇨🇮</span>
+              <span class="mpc-name">Costa de Marfil</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('ecu1h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu1h',1)">+</button><span class="mpc-digit" id="ecu1h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="ecu1a">0</span><button class="mpc-btn minus" onclick="changeScore('ecu1a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu1a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇪🇨</span>
+              <span class="mpc-name">Ecuador</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card" id="mpc-ecu-2">
+          <div class="mpc-date">Sáb 20 Jun · 9:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇪🇨</span>
+              <span class="mpc-name">Ecuador</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('ecu2h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu2h',1)">+</button><span class="mpc-digit" id="ecu2h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="ecu2a">0</span><button class="mpc-btn minus" onclick="changeScore('ecu2a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu2a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇨🇼</span>
+              <span class="mpc-name">Curazao</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card" id="mpc-ecu-3">
+          <div class="mpc-date">Jue 25 Jun · 5:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇪🇨</span>
+              <span class="mpc-name">Ecuador</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('ecu3h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu3h',1)">+</button><span class="mpc-digit" id="ecu3h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="ecu3a">0</span><button class="mpc-btn minus" onclick="changeScore('ecu3a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('ecu3a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇩🇪</span>
+              <span class="mpc-name">Alemania</span>
+            </div>
+          </div>
+</div>
+
+      </div>
+
+      <!-- Panamá -->
+      <div style="display:flex;align-items:center;gap:10px;margin:22px 0 12px;">
+        <span style="font-size:20px;">🇵🇦</span>
+        <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:15px;color:#D21034;">Panamá — Fase de Grupos</span>
+      </div>
+
+      <div class="match-pred-list">
+
+        <div class="match-pred-card pan" id="mpc-pan-1">
+          <div class="mpc-date">Mié 17 Jun · 8:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇬🇭</span>
+              <span class="mpc-name">Ghana</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('pan1h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan1h',1)">+</button><span class="mpc-digit" id="pan1h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="pan1a">0</span><button class="mpc-btn minus" onclick="changeScore('pan1a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan1a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇵🇦</span>
+              <span class="mpc-name">Panamá</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card pan" id="mpc-pan-2">
+          <div class="mpc-date">Mar 23 Jun · 8:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇵🇦</span>
+              <span class="mpc-name">Panamá</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('pan2h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan2h',1)">+</button><span class="mpc-digit" id="pan2h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="pan2a">0</span><button class="mpc-btn minus" onclick="changeScore('pan2a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan2a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇭🇷</span>
+              <span class="mpc-name">Croacia</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card pan" id="mpc-pan-3">
+          <div class="mpc-date">Sáb 27 Jun · 6:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇵🇦</span>
+              <span class="mpc-name">Panamá</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('pan3h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan3h',1)">+</button><span class="mpc-digit" id="pan3h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="pan3a">0</span><button class="mpc-btn minus" onclick="changeScore('pan3a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('pan3a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span>
+              <span class="mpc-name">Inglaterra</span>
+            </div>
+          </div>
+</div>
+
+      </div>
     <div class="card">
       <div class="card-title">✅ Sistema de Puntuación</div>
       <div class="score-banner">
@@ -410,94 +589,18 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <span class="si-icon">4️⃣</span>
           <div class="si-pts">10</div><div class="si-label">4to Puesto</div>
         </div>
+        <div class="score-item si-4" style="border-left:2px solid var(--border);">
+          <span class="si-icon">⚽</span>
+          <div class="si-pts" style="font-size:22px;">5 c/u</div><div class="si-label">Marcador exacto<br>Ecuador &amp; Panamá</div>
+        </div>
       </div>
-      <p style="font-size:13px;color:var(--muted);line-height:1.65;">Máximo posible: <strong style="color:var(--red);">125 puntos</strong>. Participación gratuita, un pronóstico por colaborador.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.65;">El puntaje máximo de <strong style="color:var(--red);">155 puntos</strong> contempla acertar el campeón, subcampeón, 3er y 4to puesto <em>(125 pts)</em>, más los <strong>6 marcadores exactos</strong> de los partidos de Ecuador y Panamá en fase de grupos <em>(30 pts adicionales, 5 pts cada uno)</em>.</p>
     </div>
 
-    <div class="card">
-      <div class="card-title">📋 Reglamento Oficial</div>
-      <div class="rule-item rule-red">
-        <span class="rule-icon">🥇</span>
-        <div><div class="rule-head">Ganador — Mayor puntaje</div>
-        <div class="rule-body">Gana el participante que acumule el <strong>mayor puntaje total</strong> al finalizar el torneo. No hay criterios secundarios: el número uno es quien más puntos tiene.</div></div>
-      </div>
-      <div class="rule-item rule-red">
-        <span class="rule-icon">🏆</span>
-        <div><div class="rule-head">El Campeón vale más</div>
-        <div class="rule-body">Acertar al <strong>Campeón vale 65 puntos</strong>, el triple que el 3er puesto. El pronóstico más difícil y el más recompensado.</div></div>
-      </div>
-      <div class="rule-item rule-green">
-        <span class="rule-icon">🎁</span>
-        <div><div class="rule-head">Participación gratuita</div>
-        <div class="rule-body">La inscripción es <strong>completamente gratuita</strong> para todos los colaboradores activos de Pronaca. No hay costo de ningún tipo.</div></div>
-      </div>
-      <div class="rule-item rule-blue">
-        <span class="rule-icon">⚖️</span>
-        <div><div class="rule-head">Empate — Premio dividido</div>
-        <div class="rule-body">Si dos o más participantes terminan con el <strong>mismo puntaje total</strong>, todos ellos participarán en un <strong>sorteo de increíbles premios</strong>. ¡Un empate también es una gran oportunidad!</div></div>
-      </div>
-      <div class="rule-item rule-gold">
-        <span class="rule-icon">📅</span>
-        <div><div class="rule-head">Fecha tope de inscripción</div>
-        <div class="rule-body">El registro cierra el <strong>martes 10 de junio de 2026 a las 11:59 PM</strong>. Pasada esa fecha no se aceptarán nuevos pronósticos.</div></div>
-      </div>
-      <div class="rule-item rule-gray" style="margin-bottom:0;">
-        <span class="rule-icon">📋</span>
-        <div><div class="rule-head">Otras reglas</div>
-        <div class="rule-body">
-          • <strong>Un solo pronóstico</strong> por colaborador (verificado por cédula).<br>
-          • Exclusivo para <strong>colaboradores activos de Pronaca</strong>.<br>
-          • No se permiten cambios una vez registrado.<br>
-          • Cada posición debe ser un país diferente.<br>
-          • Los puntos se calculan automáticamente al ingresar los resultados reales.
-        </div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">👤 Datos del Colaborador</div>
-      <div class="form-grid" style="margin-bottom:14px;">
-        <div class="form-group">
-          <label>Nombre completo *</label>
-          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez">
-        </div>
-        <div class="form-group">
-          <label>Número de Cédula *</label>
-          <input type="text" id="reg-cedula" placeholder="Ej: 1712345678" maxlength="13">
-        </div>
-      </div>
-      <div class="form-grid" style="margin-bottom:14px;">
-        <div class="form-group">
-          <label>Centro de Operación *</label>
-          <input type="text" id="reg-centro" placeholder="Ej: Planta Pifo">
-        </div>
-        <div class="form-group">
-          <label>Teléfono *</label>
-          <input type="text" id="reg-telefono" placeholder="Ej: +593 99 123 4567">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Correo electrónico *</label>
-        <input type="email" id="reg-email" placeholder="Ej: carlos.rodriguez@pronaca.com">
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">⚽ Tu Pronóstico — Fase Final</div>
-      <div class="prediction-slots">
-        <div class="slot slot-1"><span class="slot-num">1</span><span class="slot-medal">🥇</span><div class="slot-label">Campeón</div><div class="slot-pts">65 puntos si aciertas</div><select id="pred-1"><option value="">Selecciona un país...</option></select></div>
-        <div class="slot slot-2"><span class="slot-num">2</span><span class="slot-medal">🥈</span><div class="slot-label">Subcampeón</div><div class="slot-pts">30 puntos si aciertas</div><select id="pred-2"><option value="">Selecciona un país...</option></select></div>
-        <div class="slot slot-3"><span class="slot-num">3</span><span class="slot-medal">🥉</span><div class="slot-label">3er Puesto</div><div class="slot-pts">20 puntos si aciertas</div><select id="pred-3"><option value="">Selecciona un país...</option></select></div>
-        <div class="slot slot-4"><span class="slot-num">4</span><span class="slot-medal">4️⃣</span><div class="slot-label">4to Puesto</div><div class="slot-pts">10 puntos si aciertas</div><select id="pred-4"><option value="">Selecciona un país...</option></select></div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-start;background:#F8F9FA;border:1px solid #DEE2E6;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
-        <span style="font-size:18px;flex-shrink:0;">🔒</span>
-        <p style="font-size:11.5px;color:#555;line-height:1.6;margin:0;font-family:'Nunito Sans',sans-serif;">
-          <strong style="color:#333;display:block;margin-bottom:3px;">Protección de datos personales</strong>
-          Los datos recopilados serán tratados de forma <strong>confidencial</strong> y utilizados únicamente para los fines autorizados de esta actividad, conforme a la normativa vigente de protección de datos personales. Pronaca garantiza la seguridad y privacidad de tu información.
-        </p>
-      </div>
       <div id="alert-registro" class="alert"></div>
+      <p style="font-size:11px;color:#999;line-height:1.6;margin:10px 4px 0;text-align:center;">
+        🔒 <strong style="color:#666;">Protección de datos:</strong> Los datos recopilados serán tratados de forma confidencial y utilizados únicamente para los fines autorizados de esta actividad, conforme a la normativa vigente de protección de datos personales. Pronaca garantiza la seguridad y privacidad de tu información.
+      </p>
       <div id="registro-deadline-block"></div>
     </div>
 
@@ -533,6 +636,39 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
     <div id="cal-container"></div>
   </div>
 
+  <!-- REGLAMENTO -->
+  <div id="tab-reglamento" class="tab-panel">
+    <div class="card">
+      <div class="card-title">📋 Reglamento Oficial</div>
+      <div class="rule-item rule-red">
+        <span class="rule-icon">🥇</span>
+        <div><div class="rule-head">Ganador — Mayor puntaje</div>
+        <div class="rule-body">Los colaboradores que acumulen el <strong>mayor puntaje total</strong> al finalizar el torneo participarán en el <strong>sorteo de increíbles premios</strong>. ¡Entre más puntos, más chances de ganar!</div></div>
+      </div>
+      <div class="rule-item rule-green">
+        <span class="rule-icon">🎁</span>
+        <div><div class="rule-head">Participación gratuita</div>
+        <div class="rule-body">La inscripción es <strong>completamente gratuita</strong> para todos los colaboradores activos de Pronaca. No hay costo de ningún tipo.</div></div>
+      </div>
+      <div class="rule-item rule-gold">
+        <span class="rule-icon">📅</span>
+        <div><div class="rule-head">Fecha tope de inscripción</div>
+        <div class="rule-body">El registro cierra el <strong>martes 10 de junio de 2026 a las 11:59 PM</strong>. Pasada esa fecha no se aceptarán nuevos pronósticos.</div></div>
+      </div>
+      <div class="rule-item rule-gray" style="margin-bottom:0;">
+        <span class="rule-icon">📋</span>
+        <div><div class="rule-head">Otras reglas</div>
+        <div class="rule-body">
+          • <strong>Un solo pronóstico</strong> por colaborador (verificado por cédula).<br>
+          • Exclusivo para <strong>colaboradores activos de Pronaca</strong>.<br>
+          • No se permiten cambios una vez registrado.<br>
+          • Cada posición debe ser un país diferente.<br>
+          • Los puntos se calculan automáticamente al ingresar los resultados reales.
+        </div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ADMIN -->
   <div id="tab-admin" class="tab-panel">
     <div class="card" id="admin-login-card">
@@ -551,7 +687,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       <!-- Stats row -->
       <div class="admin-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px;" id="admin-stats-grid">
         <div class="stat-card"><div class="stat-number" id="stat-participantes">0</div><div class="stat-label">Colaboradores</div></div>
-        <div class="stat-card"><div class="stat-number">125</div><div class="stat-label">Pts Máx.</div></div>
+        <div class="stat-card"><div class="stat-number">155</div><div class="stat-label">Pts Máx.</div></div>
       </div>
 
       <!-- Resultados reales -->
@@ -721,9 +857,7 @@ function registrarPronostico(){
 if(!estaAbierto()){showAlert(document.getElementById("alert-registro"),"error","🔒 Las inscripciones cerraron el 10 de Junio.");return;}
 var nombre=document.getElementById("reg-nombre").value.trim();
 var cedula=document.getElementById("reg-cedula").value.trim();
-var centro=document.getElementById("reg-centro").value.trim();
-var telefono=document.getElementById("reg-telefono").value.trim();
-var email=document.getElementById("reg-email").value.trim();
+var pais=document.getElementById("reg-pais").value;
 var p1=document.getElementById("pred-1").value;
 var p2=document.getElementById("pred-2").value;
 var p3=document.getElementById("pred-3").value;
@@ -731,9 +865,7 @@ var p4=document.getElementById("pred-4").value;
 var alertEl=document.getElementById("alert-registro");
 if(!nombre){showAlert(alertEl,"error","⚠️ Ingresa tu nombre completo.");return;}
 if(!cedula||!validarCedula(cedula)){showAlert(alertEl,"error","⚠️ Ingresa un número de cédula válido (10 dígitos).");return;}
-if(!centro){showAlert(alertEl,"error","⚠️ Ingresa tu centro de operación.");return;}
-if(!telefono){showAlert(alertEl,"error","⚠️ Ingresa tu número de teléfono.");return;}
-if(!email||!validarEmail(email)){showAlert(alertEl,"error","⚠️ Ingresa un correo electrónico válido.");return;}
+if(!pais){showAlert(alertEl,"error","⚠️ Selecciona tu país.");return;}
 if(!p1||!p2||!p3||!p4){showAlert(alertEl,"error","⚠️ Selecciona los 4 puestos de tu pronóstico.");return;}
 if(new Set([p1,p2,p3,p4]).size<4){showAlert(alertEl,"error","⚠️ No puedes repetir países en tu pronóstico.");return;}
 showLoading("Verificando cédula…");
@@ -742,15 +874,20 @@ apiGet("action=check&contacto="+encodeURIComponent(cedula),function(err,data){
 if(err||!data||!data.ok){hideLoading();btn.disabled=false;showAlert(alertEl,"error","⚠️ Error de conexión. Intenta de nuevo.");return;}
 var count=data.count||0;
 if(count>=MAX_P){hideLoading();btn.disabled=false;showAlert(alertEl,"error","⚠️ Esta cédula ya tiene un pronóstico registrado. Solo se permite una participación por colaborador.");return;}
-var body={nombre:nombre,contacto:cedula,cedula:cedula,centro:centro,telefono:telefono,email:email,participacion:1,pred1:p1,pred2:p2,pred3:p3,pred4:p4,fecha:new Date().toLocaleDateString("es-EC")};
+var body={nombre:nombre,contacto:cedula,cedula:cedula,pais:pais,participacion:1,pred1:p1,pred2:p2,pred3:p3,pred4:p4,
+ecu1:SCORES.ecu1h+"-"+SCORES.ecu1a,ecu2:SCORES.ecu2h+"-"+SCORES.ecu2a,ecu3:SCORES.ecu3h+"-"+SCORES.ecu3a,
+pan1:SCORES.pan1h+"-"+SCORES.pan1a,pan2:SCORES.pan2h+"-"+SCORES.pan2a,pan3:SCORES.pan3h+"-"+SCORES.pan3a,
+fecha:new Date().toLocaleDateString("es-EC")};
 showLoading("Guardando pronóstico…");
 apiPost(body,function(err2,data2){
 hideLoading();btn.disabled=false;
 if(err2||!data2||!data2.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Intenta de nuevo.");return;}
-showAlert(alertEl,"success","🎉 ¡Pronóstico registrado, "+nombre+"! Máximo posible: 125 pts. ¡Mucha suerte!");
+showAlert(alertEl,"success","🎉 ¡Pronóstico registrado, "+nombre+"! Máximo posible: 155 pts. ¡Mucha suerte!");
 confetti();
-["reg-nombre","reg-cedula","reg-centro","reg-telefono","reg-email"].forEach(function(id){document.getElementById(id).value="";});
+["reg-nombre","reg-cedula"].forEach(function(id){document.getElementById(id).value="";});
+document.getElementById("reg-pais").value="";
 ["pred-1","pred-2","pred-3","pred-4"].forEach(function(id){document.getElementById(id).value="";});
+Object.keys(SCORES).forEach(function(k){SCORES[k]=0;document.getElementById(k).textContent="0";});
 });
 });
 }
@@ -793,6 +930,17 @@ html+='</tr>';
 }
 html+='</tbody></table>';
 content.innerHTML=html;
+}
+
+var SCORES={ecu1h:0,ecu1a:0,ecu2h:0,ecu2a:0,ecu3h:0,ecu3a:0,pan1h:0,pan1a:0,pan2h:0,pan2a:0,pan3h:0,pan3a:0};
+function changeScore(id,delta){
+  SCORES[id]=Math.max(0,Math.min(20,(SCORES[id]||0)+delta));
+  var el=document.getElementById(id);
+  if(el){
+    el.textContent=SCORES[id];
+    el.style.transform='scale(1.3)';
+    setTimeout(function(){el.style.transform='scale(1)';el.style.transition='transform .15s';},150);
+  }
 }
 
 function loginAdmin(){
@@ -844,7 +992,7 @@ grid.innerHTML=
 '<div class="stat-card"><div class="stat-number">'+data.length+'</div><div class="stat-label">Colaboradores</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+centros.size+'</div><div class="stat-label">Centros</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+conPuntos+'</div><div class="stat-label">Con Puntos</div></div>'+
-'<div class="stat-card"><div class="stat-number">125</div><div class="stat-label">Pts Máx.</div></div>';
+'<div class="stat-card"><div class="stat-number">155</div><div class="stat-label">Pts Máx.</div></div>';
 grid.style.gridTemplateColumns='repeat(4,1fr)';
 }
 
@@ -888,10 +1036,9 @@ html+='<table class="ranking-table" style="min-width:720px;"><thead><tr>';
 html+='<th style="text-align:center;width:40px;">#</th>';
 html+='<th>Nombre</th>';
 html+='<th>Cédula</th>';
-html+='<th>Centro</th>';
-html+='<th>Teléfono</th>';
-html+='<th>Correo</th>';
-html+='<th>Pronóstico</th>';
+html+='<th>País</th>';
+html+='<th>Pronóstico Final</th>';
+html+='<th>Marcadores Ecu/Pan</th>';
 html+='<th style="text-align:center;">Fecha</th>';
 html+='<th style="text-align:right;">Pts</th>';
 html+='</tr></thead><tbody>';
@@ -904,10 +1051,9 @@ html+='<tr class="rank-row" style="border-left:3px solid '+(pos<=3?posColor:'tra
 html+='<td style="font-family:\'Nunito\',sans-serif;font-size:'+(pos<=3?'18':'14')+'px;font-weight:900;text-align:center;color:'+posColor+';">'+medal+'</td>';
 html+='<td><strong style="font-family:\'Nunito\',sans-serif;font-size:14px;">'+escHtml(p.nombre||'–')+'</strong></td>';
 html+='<td style="font-size:12px;color:var(--muted);white-space:nowrap;">'+escHtml(p.cedula||p.contacto||'–')+'</td>';
-html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.centro||'–')+'</td>';
-html+='<td style="font-size:12px;color:var(--muted);white-space:nowrap;">'+escHtml(p.telefono||'–')+'</td>';
-html+='<td style="font-size:12px;color:var(--muted);">'+escHtml(p.email||'–')+'</td>';
+html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.pais||p.centro||'–')+'</td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'?')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'?')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'?')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'?')+'</span></div></td>';
+html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div style="display:flex;flex-direction:column;gap:2px;"><span>🇨🇮v🇪🇨 '+escHtml(p.ecu1||'–')+'</span><span>🇪🇨v🇨🇼 '+escHtml(p.ecu2||'–')+'</span><span>🇪🇨v🇩🇪 '+escHtml(p.ecu3||'–')+'</span><span>🇬🇭v🇵🇦 '+escHtml(p.pan1||'–')+'</span><span>🇵🇦v🇭🇷 '+escHtml(p.pan2||'–')+'</span><span>🇵🇦v🏴󠁧󠁢󠁥󠁮󠁧󠁿 '+escHtml(p.pan3||'–')+'</span></div></td>';
 html+='<td style="font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;">'+escHtml(p.fecha||'–')+'</td>';
 html+='<td style="text-align:right;"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
 html+='</tr>';
@@ -933,10 +1079,10 @@ cargarAdminLista();
 function exportarCSV(){
 if(!localData.length){return;}
 var sorted=localData.slice().sort(function(a,b){return(b.puntos||0)-(a.puntos||0);});
-var csv="Pos,Nombre,Cedula,Centro,Telefono,Email,Campeon,Subcampeon,3ro,4to,Puntos,Fecha\n";
+var csv="Pos,Nombre,Cedula,Pais,Campeon,Subcampeon,3ro,4to,MarfilvEcu,EcuvCurazao,EcuvAlemania,GhanavPan,PanvCroacia,PanvInglaterra,Puntos,Fecha\n";
 for(var i=0;i<sorted.length;i++){
 var p=sorted[i];
-csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.centro||'')+'","'+(p.telefono||'')+'","'+(p.email||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'",'+p.puntos+',"'+p.fecha+'"\n';
+csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'",'+p.puntos+',"'+p.fecha+'"\n';
 }
 var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="pronaca-mundial2026.csv";a.click();
 }
@@ -1020,7 +1166,7 @@ html+='<div class="match-team">'+af+m.a+'</div></div>';
 }
 container.innerHTML=html;
 }
-init();
+document.addEventListener('DOMContentLoaded', function(){ init(); });
 </script>
 </body>
 </html>
