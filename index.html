@@ -788,10 +788,8 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 
         <!-- Buscador y filtro -->
         <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-          <input type="text" id="admin-search" placeholder="🔍 Buscar por nombre, cédula o centro..." style="flex:1;min-width:200px;" oninput="filtrarAdminLista()">
-          <select id="admin-filtro-centro" style="min-width:160px;" onchange="filtrarAdminLista()">
-            <option value="">Todos los centros</option>
-          </select>
+          <input type="text" id="admin-search" placeholder="🔍 Buscar por nombre o cédula..." style="flex:1;min-width:200px;" oninput="filtrarAdminLista()">
+
         </div>
 
         <!-- Última actualización -->
@@ -996,7 +994,7 @@ var cls=pos===1?"rank-1":pos===2?"rank-2":pos===3?"rank-3":"rank-n";
 var medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
 html+='<tr class="rank-row">';
 html+='<td class="rank-pos '+cls+'" style="text-align:center">'+medal+'</td>';
-html+='<td><div class="p-name">'+p.nombre+'</div><div class="p-sub">'+(p.centro||p.fecha||'')+'</div></td>';
+html+='<td><div class="p-name">'+p.nombre+'</div><div class="p-sub">'+(p.fecha||'')+'</div></td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+p.pred1+'</span><span class="mini-tag mini-2">🥈 '+p.pred2+'</span><span class="mini-tag mini-3">🥉 '+p.pred3+'</span><span class="mini-tag mini-4">4️⃣ '+p.pred4+'</span></div></td>';
 html+='<td style="text-align:right"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
 html+='</tr>';
@@ -1055,8 +1053,6 @@ if(localResultados.r1)document.getElementById("res-1").value=localResultados.r1;
 if(localResultados.r2)document.getElementById("res-2").value=localResultados.r2;
 if(localResultados.r3)document.getElementById("res-3").value=localResultados.r3;
 if(localResultados.r4)document.getElementById("res-4").value=localResultados.r4;
-// Filtro de centros
-poblarFiltroCentros(localData);
 // Última actualización
 var upd=document.getElementById("admin-last-update");
 if(upd)upd.textContent="✅ Última actualización: "+new Date().toLocaleString("es-EC");
@@ -1067,38 +1063,24 @@ renderAdminLista(localData);
 function actualizarStatsAdmin(data){
 var grid=document.getElementById("admin-stats-grid");
 if(!grid)return;
-var centros=new Set(data.map(function(p){return p.centro||"";}).filter(Boolean));
+var paises=new Set(data.map(function(p){return p.pais||"";}).filter(Boolean));
 var conPuntos=data.filter(function(p){return(p.puntos||0)>0;}).length;
 grid.innerHTML=
 '<div class="stat-card"><div class="stat-number">'+data.length+'</div><div class="stat-label">Colaboradores</div></div>'+
-'<div class="stat-card"><div class="stat-number">'+centros.size+'</div><div class="stat-label">Centros</div></div>'+
+'<div class="stat-card"><div class="stat-number">'+paises.size+'</div><div class="stat-label">Países</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+conPuntos+'</div><div class="stat-label">Con Puntos</div></div>'+
 '<div class="stat-card"><div class="stat-number">155</div><div class="stat-label">Pts Máx.</div></div>';
 grid.style.gridTemplateColumns='repeat(4,1fr)';
 }
 
-function poblarFiltroCentros(data){
-var sel=document.getElementById("admin-filtro-centro");if(!sel)return;
-var centros=Array.from(new Set(data.map(function(p){return p.centro||"";}).filter(Boolean))).sort();
-var html='<option value="">Todos los centros ('+data.length+')</option>';
-centros.forEach(function(c){
-var cnt=data.filter(function(p){return p.centro===c;}).length;
-html+='<option value="'+c+'">'+c+' ('+cnt+')</option>';
-});
-sel.innerHTML=html;
-}
-
 function filtrarAdminLista(){
 var search=(document.getElementById("admin-search").value||"").toLowerCase();
-var centro=(document.getElementById("admin-filtro-centro").value||"");
 var filtered=localData.filter(function(p){
 var matchSearch=!search||
 (p.nombre||"").toLowerCase().includes(search)||
 (p.cedula||p.contacto||"").toLowerCase().includes(search)||
-(p.centro||"").toLowerCase().includes(search)||
 (p.email||"").toLowerCase().includes(search);
-var matchCentro=!centro||(p.centro||"")=== centro;
-return matchSearch&&matchCentro;
+return matchSearch;
 });
 renderAdminLista(filtered,localData.length);
 }
@@ -1132,7 +1114,7 @@ html+='<tr class="rank-row" style="border-left:3px solid '+(pos<=3?posColor:'tra
 html+='<td style="font-family:\'Nunito\',sans-serif;font-size:'+(pos<=3?'18':'14')+'px;font-weight:900;text-align:center;color:'+posColor+';">'+medal+'</td>';
 html+='<td><strong style="font-family:\'Nunito\',sans-serif;font-size:14px;">'+escHtml(p.nombre||'–')+'</strong></td>';
 html+='<td style="font-size:12px;color:var(--muted);white-space:nowrap;">'+escHtml(p.cedula||p.contacto||'–')+'</td>';
-html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.pais||p.centro||'–')+'</td>';
+html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.pais||'–')+'</td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'?')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'?')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'?')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'?')+'</span></div></td>';
 html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div style="display:flex;flex-direction:column;gap:2px;">'+
 '<span>🇨🇮v🇪🇨 '+fmtScore(p.ecu1)+'</span>'+
