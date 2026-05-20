@@ -402,9 +402,9 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 <div class="tabs-wrap">
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('registro',this)">⚽ Mi Pronóstico</button>
-    <button class="tab-btn" onclick="switchTab('ranking',this)">🏆 Líderes</button>
-    <button class="tab-btn" onclick="switchTab('calendario',this)">📅 Calendario</button>
     <button class="tab-btn" onclick="switchTab('reglamento',this)">📋 Reglamento</button>
+    <button class="tab-btn" onclick="switchTab('calendario',this)">📅 Calendario</button>
+    <button class="tab-btn" onclick="switchTab('ranking',this)">🏆 Líderes</button>
     <button class="tab-btn" onclick="switchTab('admin',this)">⚙️ Admin</button>
   </div>
 </div>
@@ -431,12 +431,13 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
         </div>
         <div class="form-group">
           <label>Número de Cédula *</label>
-          <input type="text" id="reg-cedula" placeholder="Ej: 1712345678" maxlength="13">
+          <input type="text" id="reg-cedula" placeholder="Ej: 1712345678" maxlength="10">
+          <span id="cedula-hint" style="font-size:11px;color:var(--muted);margin-top:4px;display:block;"></span>
         </div>
       </div>
       <div class="form-group" style="margin-bottom:14px;">
         <label>País *</label>
-        <select id="reg-pais">
+        <select id="reg-pais" onchange="actualizarCamposCedula()">
           <option value="">Selecciona tu país...</option>
           <option value="Ecuador">🇪🇨 Ecuador</option>
           <option value="Panamá">🇵🇦 Panamá</option>
@@ -881,10 +882,30 @@ for(var i=0;i<inputs.length;i++)inputs[i].disabled=true;
 }
 }
 
-function validarCedula(ced){
+function actualizarCamposCedula(){
+var pais=document.getElementById("reg-pais").value;
+var input=document.getElementById("reg-cedula");
+var hint=document.getElementById("cedula-hint");
+if(pais==='Ecuador'){
+  input.maxLength=10;
+  input.placeholder="Ej: 1712345678";
+  if(hint) hint.textContent="10 dígitos";
+} else if(pais==='Panamá'){
+  input.maxLength=8;
+  input.placeholder="Ej: 8-123-4567";
+  if(hint) hint.textContent="7 u 8 dígitos";
+} else {
+  input.maxLength=10;
+  input.placeholder="Número de cédula";
+  if(hint) hint.textContent="";
+}
+}
+
+function validarCedula(ced, pais){
 ced=ced.replace(/\D/g,'');
-if(ced.length<10||ced.length>13)return false;
-return true;
+if(pais==='Ecuador') return ced.length===10;
+if(pais==='Panamá')  return ced.length>=7 && ced.length<=8;
+return ced.length>=7 && ced.length<=10;
 }
 
 function validarEmail(email){
@@ -934,7 +955,9 @@ var p3=document.getElementById("pred-3").value;
 var p4=document.getElementById("pred-4").value;
 var alertEl=document.getElementById("alert-registro");
 if(!nombre){showAlert(alertEl,"error","⚠️ Ingresa tu nombre completo.");return;}
-if(!cedula||!validarCedula(cedula)){showAlert(alertEl,"error","⚠️ Ingresa un número de cédula válido (10 dígitos).");return;}
+if(!cedula||!validarCedula(cedula,pais)){
+var cedulaMsg=pais==='Ecuador'?'10 dígitos':pais==='Panamá'?'7 u 8 dígitos':'7 a 10 dígitos';
+showAlert(alertEl,"error","⚠️ Ingresa un número de cédula válido ("+cedulaMsg+").");return;}
 if(!pais){showAlert(alertEl,"error","⚠️ Selecciona tu país.");return;}
 if(!p1||!p2||!p3||!p4){showAlert(alertEl,"error","⚠️ Selecciona los 4 puestos de tu pronóstico.");return;}
 if(new Set([p1,p2,p3,p4]).size<4){showAlert(alertEl,"error","⚠️ No puedes repetir países en tu pronóstico.");return;}
