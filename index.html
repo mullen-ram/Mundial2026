@@ -988,6 +988,28 @@ var BANDERAS = {
 var localData = [];
 var localResultados = {r1:"",r2:"",r3:"",r4:""};
 
+// ─── Cálculo de puntos 100% en frontend ──────────────────────────────────
+function calcularPuntosLocal(p, res){
+  if(!res) return p.puntos||0;
+  var pts=0;
+  if(res.r1 && p.pred1===res.r1) pts+=65;
+  if(res.r2 && p.pred2===res.r2) pts+=30;
+  if(res.r3 && p.pred3===res.r3) pts+=20;
+  if(res.r4 && p.pred4===res.r4) pts+=10;
+  var matches=[
+    ['ecu1','ecu1'],['ecu2','ecu2'],['ecu3','ecu3'],
+    ['pan1','pan1'],['pan2','pan2'],['pan3','pan3'],
+    ['usa1','usa1'],['usa2','usa2'],['usa3','usa3']
+  ];
+  for(var i=0;i<matches.length;i++){
+    var campo=matches[i][0];
+    var realVal=res[campo];
+    var predVal=p[campo];
+    if(realVal && predVal && realVal!=='0-0' && predVal!=='0-0' && realVal===predVal) pts+=5;
+  }
+  return pts;
+}
+
 function estaAbierto(){return new Date()<FECHA_TOPE;}
 
 function renderDeadlineBlock(){
@@ -1142,7 +1164,7 @@ renderRanking(localData,localResultados);
 function renderRanking(participants,resultados){
 var content=document.getElementById("ranking-content");
 if(!participants.length){content.innerHTML='<div class="empty-state"><span class="empty-icon">⚽</span><p style="font-size:15px;line-height:1.7;color:var(--muted);">Aún no hay participantes.<br>¡Sé el primero!</p></div>';return;}
-var sorted=participants.slice().sort(function(a,b){return(b.puntos||0)-(a.puntos||0);});
+var sorted=participants.slice().sort(function(a,b){return calcularPuntosLocal(b,localResultados)-calcularPuntosLocal(a,localResultados);});
 var hasR=resultados&&(resultados.r1||resultados.r2||resultados.r3||resultados.r4);
 var html="";
 if(hasR){
@@ -1162,7 +1184,7 @@ html+='<tr class="rank-row">';
 html+='<td class="rank-pos '+cls+'" style="text-align:center">'+medal+'</td>';
 html+='<td><div class="p-name">'+p.nombre+'</div><div class="p-sub">'+(p.fecha||'')+'</div></td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+p.pred1+'</span><span class="mini-tag mini-2">🥈 '+p.pred2+'</span><span class="mini-tag mini-3">🥉 '+p.pred3+'</span><span class="mini-tag mini-4">4️⃣ '+p.pred4+'</span></div></td>';
-html+='<td style="text-align:right"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
+html+='<td style="text-align:right"><span class="score-pill">'+calcularPuntosLocal(p,localResultados)+'</span></td>';
 html+='</tr>';
 }
 html+='</tbody></table>';
@@ -1230,7 +1252,7 @@ function actualizarStatsAdmin(data){
 var grid=document.getElementById("admin-stats-grid");
 if(!grid)return;
 var paises=new Set(data.map(function(p){return p.pais||"";}).filter(Boolean));
-var conPuntos=data.filter(function(p){return(p.puntos||0)>0;}).length;
+  var conPuntos=data.filter(function(p){return calcularPuntosLocal(p,localResultados)>0;}).length;
 grid.innerHTML=
 '<div class="stat-card"><div class="stat-number">'+data.length+'</div><div class="stat-label">Colaboradores</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+paises.size+'</div><div class="stat-label">Países</div></div>'+
@@ -1258,7 +1280,7 @@ if(!participants.length){
 el.innerHTML='<div class="empty-state"><span class="empty-icon">👥</span><p style="font-size:14px;color:var(--muted);">Sin resultados'+totalStr+'.</p></div>';
 return;
 }
-var sorted=participants.slice().sort(function(a,b){return(b.puntos||0)-(a.puntos||0);});
+var sorted=participants.slice().sort(function(a,b){return calcularPuntosLocal(b,localResultados)-calcularPuntosLocal(a,localResultados);});
 var html='<p style="font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:700;">'+sorted.length+' colaborador'+(sorted.length!==1?'es':'')+totalStr+'</p>';
 html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">';
 html+='<table class="ranking-table" style="min-width:720px;"><thead><tr>';
@@ -1294,7 +1316,7 @@ html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div st
 '<span>🇹🇷v🇺🇸 '+fmtScore(p.usa3)+'</span>'+
 '</div></td>';
 html+='<td style="font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;">'+escHtml(p.fecha||'–')+'</td>';
-html+='<td style="text-align:right;"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
+html+='<td style="text-align:right;"><span class="score-pill">'+calcularPuntosLocal(p,localResultados)+'</span></td>';
 html+='</tr>';
 }
 html+='</tbody></table></div>';
@@ -1325,6 +1347,12 @@ r4:document.getElementById("res-4").value};
 apiPost(body,function(err,data){
 hideLoading();
 if(err||!data||!data.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Verifica la conexión.");return;}
+// Actualizar localResultados de inmediato con los marcadores guardados
+localResultados.ecu1=body.ecu1;localResultados.ecu2=body.ecu2;localResultados.ecu3=body.ecu3;
+localResultados.pan1=body.pan1;localResultados.pan2=body.pan2;localResultados.pan3=body.pan3;
+localResultados.usa1=body.usa1;localResultados.usa2=body.usa2;localResultados.usa3=body.usa3;
+if(body.r1)localResultados.r1=body.r1;if(body.r2)localResultados.r2=body.r2;
+if(body.r3)localResultados.r3=body.r3;if(body.r4)localResultados.r4=body.r4;
 showAlert(alertEl,"success","✅ Marcadores guardados. Puntos recalculados correctamente.");
 cargarAdminLista();
 });
@@ -1338,6 +1366,8 @@ showLoading("Guardando y recalculando…");
 apiPost({action:"saveResultados",r1:r1,r2:r2,r3:r3,r4:r4},function(err,data){
 hideLoading();var alertEl=document.getElementById("alert-resultado");
 if(err||!data||!data.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Intenta de nuevo.");return;}
+if(r1)localResultados.r1=r1;if(r2)localResultados.r2=r2;
+if(r3)localResultados.r3=r3;if(r4)localResultados.r4=r4;
 showAlert(alertEl,"success","✅ Resultados guardados y puntos recalculados en Google Sheets.");
 cargarAdminLista();
 });
@@ -1345,11 +1375,11 @@ cargarAdminLista();
 
 function exportarCSV(){
 if(!localData.length){return;}
-var sorted=localData.slice().sort(function(a,b){return(b.puntos||0)-(a.puntos||0);});
+var sorted=localData.slice().sort(function(a,b){return calcularPuntosLocal(b,localResultados)-calcularPuntosLocal(a,localResultados);});
 var csv="Pos,Nombre,Cedula,Pais,Campeon,Subcampeon,3ro,4to,MarfilvEcu,EcuvCurazao,EcuvAlemania,GhanavPan,PanvCroacia,PanvInglaterra,USAvParaguay,USAvAustralia,TurquiavUSA,Puntos,Fecha\n";
 for(var i=0;i<sorted.length;i++){
 var p=sorted[i];
-csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'","'+(p.usa1||'0-0')+'","'+(p.usa2||'0-0')+'","'+(p.usa3||'0-0')+'",'+p.puntos+',"'+p.fecha+'"\n';
+csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'","'+(p.usa1||'0-0')+'","'+(p.usa2||'0-0')+'","'+(p.usa3||'0-0')+'",'+calcularPuntosLocal(p,localResultados)+',"'+p.fecha+'"\n';
 }
 var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="pronaca-mundial2026.csv";a.click();
 }
