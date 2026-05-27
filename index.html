@@ -1005,7 +1005,8 @@ function calcularPuntosLocal(p, res){
     var campo=matches[i][0];
     var realVal=res[campo];
     var predVal=p[campo];
-    if(realVal && predVal && realVal!=='0-0' && predVal!=='0-0' && realVal===predVal) pts+=5;
+    // 0-0 es marcador válido — solo excluir null/undefined/string vacío
+    if(realVal!=null && realVal!=='' && predVal!=null && predVal!=='' && String(realVal)===String(predVal)) pts+=5;
   }
   return pts;
 }
@@ -1241,6 +1242,19 @@ if(localResultados.r1)document.getElementById("res-1").value=localResultados.r1;
 if(localResultados.r2)document.getElementById("res-2").value=localResultados.r2;
 if(localResultados.r3)document.getElementById("res-3").value=localResultados.r3;
 if(localResultados.r4)document.getElementById("res-4").value=localResultados.r4;
+// Restaurar marcadores reales guardados en los inputs del admin
+var marcFields=['ecu1','ecu2','ecu3','pan1','pan2','pan3','usa1','usa2','usa3'];
+for(var mf=0;mf<marcFields.length;mf++){
+  var mk=marcFields[mf];
+  var mv=localResultados[mk];
+  if(mv!=null && mv!==''){
+    var parts=mv.split('-');
+    var elH=document.getElementById('real-'+mk+'h');
+    var elA=document.getElementById('real-'+mk+'a');
+    if(elH)elH.value=parts[0]||'';
+    if(elA)elA.value=parts[1]||'';
+  }
+}
 // Última actualización
 var upd=document.getElementById("admin-last-update");
 if(upd)upd.textContent="✅ Última actualización: "+new Date().toLocaleString("es-EC");
@@ -1328,15 +1342,16 @@ function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–<
 
 function guardarMarcadoresReales(){
 var alertEl=document.getElementById("alert-marcadores");
-var ecu1=getVal("real-ecu1h")+"-"+getVal("real-ecu1a");
-var ecu2=getVal("real-ecu2h")+"-"+getVal("real-ecu2a");
-var ecu3=getVal("real-ecu3h")+"-"+getVal("real-ecu3a");
-var pan1=getVal("real-pan1h")+"-"+getVal("real-pan1a");
-var pan2=getVal("real-pan2h")+"-"+getVal("real-pan2a");
-var pan3=getVal("real-pan3h")+"-"+getVal("real-pan3a");
-var usa1=getVal("real-usa1h")+"-"+getVal("real-usa1a");
-var usa2=getVal("real-usa2h")+"-"+getVal("real-usa2a");
-var usa3=getVal("real-usa3h")+"-"+getVal("real-usa3a");
+// Usar getMarcVal: si el input está vacío se conserva el valor guardado del servidor
+var ecu1=getMarcVal("real-ecu1h","real-ecu1a")||localResultados.ecu1||"0-0";
+var ecu2=getMarcVal("real-ecu2h","real-ecu2a")||localResultados.ecu2||"0-0";
+var ecu3=getMarcVal("real-ecu3h","real-ecu3a")||localResultados.ecu3||"0-0";
+var pan1=getMarcVal("real-pan1h","real-pan1a")||localResultados.pan1||"0-0";
+var pan2=getMarcVal("real-pan2h","real-pan2a")||localResultados.pan2||"0-0";
+var pan3=getMarcVal("real-pan3h","real-pan3a")||localResultados.pan3||"0-0";
+var usa1=getMarcVal("real-usa1h","real-usa1a")||localResultados.usa1||"0-0";
+var usa2=getMarcVal("real-usa2h","real-usa2a")||localResultados.usa2||"0-0";
+var usa3=getMarcVal("real-usa3h","real-usa3a")||localResultados.usa3||"0-0";
 showLoading("Guardando marcadores y recalculando…");
 var body={action:"saveMarcadores",ecu1:ecu1,ecu2:ecu2,ecu3:ecu3,pan1:pan1,pan2:pan2,pan3:pan3,
 usa1:usa1,usa2:usa2,usa3:usa3,
@@ -1358,6 +1373,16 @@ cargarAdminLista();
 });
 }
 function getVal(id){var el=document.getElementById(id);return el&&el.value!==""?parseInt(el.value)||0:0;}
+function getMarcVal(keyH,keyA){
+// Devuelve null solo si AMBOS campos están vacíos (el admin no tocó el partido)
+// Si al menos uno tiene valor, se construye el marcador (0 es válido)
+var elH=document.getElementById(keyH);var elA=document.getElementById(keyA);
+var emptyH=!elH||elH.value==='';var emptyA=!elA||elA.value==='';
+if(emptyH&&emptyA)return null;
+var vh=emptyH?0:parseInt(elH.value);var va=emptyA?0:parseInt(elA.value);
+if(isNaN(vh))vh=0;if(isNaN(va))va=0;
+return vh+'-'+va;
+}
 
 function guardarResultados(){
 var r1=document.getElementById("res-1").value;var r2=document.getElementById("res-2").value;
