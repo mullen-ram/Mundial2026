@@ -43,6 +43,21 @@
   --silver:#7A8A9A;--bronze:#A0622A;--fourth:#2A70B8;
   --shadow:0 4px 20px rgba(244,32,32,0.10);--shadow-lg:0 8px 40px rgba(244,32,32,0.16);
   --radius:16px;
+
+  /* ── PRONACA BRAND TOKENS ───────────────────────────────────────
+     Para aplicar la identidad de marca Pronaca, actualiza estas
+     variables con los valores exactos del manual de marca:
+     - brand-primary: color principal Pronaca (ej. #D4000A para rojo Pronaca)
+     - brand-secondary: color secundario/acento
+     - brand-dark: color oscuro de contraste
+     - brand-font: fuente tipográfica corporativa
+     Estas variables reemplazan --red, --red2 y los gradientes del header.
+  ─────────────────────────────────────────────────────────────── */
+  --brand-primary: #F42020;
+  --brand-secondary: #C41010;
+  --brand-dark: #8A0808;
+  --brand-accent: #FFE066;
+  --brand-font: 'Nunito', sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{background:var(--bg);color:var(--text);font-family:'Nunito Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
@@ -234,6 +249,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .match-card:hover{border-color:var(--red);background:#fff5f5;}
 .match-card.highlight{border:2.5px solid #FFE500;background:#FFFDE7;box-shadow:0 2px 12px rgba(255,229,0,0.25);}
 .match-card.highlight-pan{border:2.5px solid #D21034;background:#FFF0F2;box-shadow:0 2px 12px rgba(210,16,52,0.15);}
+.match-card.highlight-usa{border:2.5px solid #1A3A8A;background:#F0F4FF;box-shadow:0 2px 12px rgba(26,58,138,0.15);}
 .match-card.is-final{border-color:#FFE066;background:linear-gradient(135deg,#7A0808,#C01010);}
 .match-card.is-third{border-top:3px solid var(--bronze);background:#ffffff;}
 .match-team{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);}
@@ -252,6 +268,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .match-pred-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
 .match-pred-card{background:#fff;border:2px solid #FFE500;border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(255,229,0,0.15);}
 .match-pred-card.pan{border-color:#D21034;box-shadow:0 2px 10px rgba(210,16,52,0.12);}
+.match-pred-card.usa{border-color:#1A3A8A;box-shadow:0 2px 10px rgba(26,58,138,0.12);}
 .mpc-date{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.5px;text-align:center;margin-bottom:12px;text-transform:uppercase;}
 .mpc-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:12px;}
 .mpc-team{display:flex;flex-direction:column;align-items:center;gap:4px;}
@@ -456,6 +473,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <option value="">Selecciona tu país...</option>
           <option value="Ecuador">🇪🇨 Ecuador</option>
           <option value="Panamá">🇵🇦 Panamá</option>
+          <option value="Estados Unidos">🇺🇸 Estados Unidos</option>
         </select>
       </div>
       <div class="form-grid" style="margin-bottom:14px;">
@@ -464,7 +482,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez">
         </div>
         <div class="form-group">
-          <label>Número de Cédula *</label>
+          <label id="cedula-label">Número de Cédula *</label>
           <input type="text" id="reg-cedula" placeholder="Ej: 1712345678" maxlength="10">
           <span id="cedula-hint" style="font-size:11px;color:var(--muted);margin-top:4px;display:block;"></span>
         </div>
@@ -484,7 +502,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
     <!-- RESULTADOS FASE DE GRUPOS -->
     <div class="card">
       <div class="card-title">🎯 Predice los Resultados — Fase de Grupos</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">Ingresa el marcador exacto de cada partido de <strong>Ecuador</strong> y <strong>Panamá</strong>. ¡5 puntos extra por cada resultado exacto!</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">Ingresa el marcador exacto de cada partido de <strong>Ecuador</strong>, <strong>Panamá</strong> y <strong>Estados Unidos</strong>. ¡5 puntos extra por cada resultado exacto!</p>
 
       <!-- Ecuador -->
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
@@ -595,6 +613,61 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 </div>
 
       </div>
+
+      <!-- Estados Unidos -->
+      <div style="display:flex;align-items:center;gap:10px;margin:22px 0 12px;">
+        <span style="font-size:20px;">🇺🇸</span>
+        <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:15px;color:#1A3A8A;">Estados Unidos — Fase de Grupos</span>
+      </div>
+
+      <div class="match-pred-list">
+
+        <div class="match-pred-card usa" id="mpc-usa-1">
+          <div class="mpc-date">Vie 12 Jun · 10:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇺🇸</span>
+              <span class="mpc-name">Estados Unidos</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('usa1h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa1h',1)">+</button><span class="mpc-digit" id="usa1h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="usa1a">0</span><button class="mpc-btn minus" onclick="changeScore('usa1a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa1a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇵🇾</span>
+              <span class="mpc-name">Paraguay</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card usa" id="mpc-usa-2">
+          <div class="mpc-date">Vie 19 Jun · 4:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇺🇸</span>
+              <span class="mpc-name">Estados Unidos</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('usa2h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa2h',1)">+</button><span class="mpc-digit" id="usa2h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="usa2a">0</span><button class="mpc-btn minus" onclick="changeScore('usa2a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa2a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇦🇺</span>
+              <span class="mpc-name">Australia</span>
+            </div>
+          </div>
+</div>
+
+        <div class="match-pred-card usa" id="mpc-usa-3">
+          <div class="mpc-date">Jue 25 Jun · 11:00 PM ECU</div>
+          <div class="mpc-row">
+            <div class="mpc-team right">
+              <span class="mpc-flag">🇹🇷</span>
+              <span class="mpc-name">Turquía</span>
+            </div>
+            <div class="mpc-score-box"><button class="mpc-btn minus" onclick="changeScore('usa3h',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa3h',1)">+</button><span class="mpc-digit" id="usa3h">0</span><span class="mpc-sep">:</span><span class="mpc-digit" id="usa3a">0</span><button class="mpc-btn minus" onclick="changeScore('usa3a',-1)">−</button><button class="mpc-btn plus" onclick="changeScore('usa3a',1)">+</button></div>
+            <div class="mpc-team left">
+              <span class="mpc-flag">🇺🇸</span>
+              <span class="mpc-name">Estados Unidos</span>
+            </div>
+          </div>
+</div>
+
+      </div>
     <div class="card">
       <div class="card-title">✅ Sistema de Puntuación</div>
       <div class="score-banner">
@@ -617,10 +690,10 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
         </div>
         <div class="score-item si-4" style="border-left:2px solid var(--border);">
           <span class="si-icon">⚽</span>
-          <div class="si-pts" style="font-size:22px;">5 c/u</div><div class="si-label">Marcador exacto<br>Ecuador &amp; Panamá</div>
+          <div class="si-pts" style="font-size:22px;">5 c/u</div><div class="si-label">Marcador exacto<br>Ecuador, Panamá &amp; USA</div>
         </div>
       </div>
-      <p style="font-size:13px;color:var(--muted);line-height:1.65;">El puntaje máximo de <strong style="color:var(--red);">155 puntos</strong> contempla acertar el campeón, subcampeón, 3er y 4to puesto <em>(125 pts)</em>, más los <strong>6 marcadores exactos</strong> de los partidos de Ecuador y Panamá en fase de grupos <em>(30 pts adicionales, 5 pts cada uno)</em>.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.65;">El puntaje máximo de <strong style="color:var(--red);">170 puntos</strong> contempla acertar el campeón, subcampeón, 3er y 4to puesto <em>(125 pts)</em>, más los <strong>9 marcadores exactos</strong> de los partidos de Ecuador, Panamá y Estados Unidos en fase de grupos <em>(45 pts adicionales, 5 pts cada uno)</em>.</p>
     </div>
 
       <div id="alert-registro" class="alert"></div>
@@ -689,6 +762,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           • Exclusivo para <strong>colaboradores activos de Pronaca</strong>.<br>
           • No se permiten cambios una vez registrado.<br>
           • Cada posición debe ser un país diferente.<br>
+          • Se predicen marcadores de Ecuador, Panamá y <strong>Estados Unidos</strong> en fase de grupos <em>(5 pts c/u)</em>.<br>
           • Los puntos se calculan automáticamente al ingresar los resultados reales.
         </div></div>
       </div>
@@ -713,7 +787,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       <!-- Stats row -->
       <div class="admin-grid" style="grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px;" id="admin-stats-grid">
         <div class="stat-card"><div class="stat-number" id="stat-participantes">0</div><div class="stat-label">Colaboradores</div></div>
-        <div class="stat-card"><div class="stat-number">155</div><div class="stat-label">Pts Máx.</div></div>
+        <div class="stat-card"><div class="stat-number">170</div><div class="stat-label">Pts Máx.</div></div>
       </div>
 
       <!-- Resultados reales -->
@@ -732,8 +806,8 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 
       <!-- Marcadores reales Ecuador y Panamá -->
       <div class="card">
-        <div class="card-title">⚽ Resultados Reales — Ecuador &amp; Panamá</div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Ingresa el marcador real de cada partido. Al guardar se suman <strong>5 puntos</strong> por cada marcador que coincida con el pronóstico del colaborador.</p>
+        <div class="card-title">⚽ Resultados Reales — Ecuador, Panamá &amp; USA</div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Ingresa el marcador real de cada partido. Al guardar se suman <strong>5 puntos</strong> por cada marcador que coincida con el pronóstico del colaborador (Ecuador, Panamá y Estados Unidos).</p>
 
         <!-- Ecuador -->
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
@@ -795,6 +869,38 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
               <input type="number" id="real-pan3h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
               <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
               <input type="number" id="real-pan3a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Estados Unidos -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:18px;">
+          <span style="font-size:18px;">🇺🇸</span>
+          <span style="font-weight:900;font-family:'Nunito',sans-serif;font-size:14px;color:#1A3A8A;">Estados Unidos</span>
+        </div>
+        <div class="result-slots" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label style="font-size:12px;">🇺🇸 Estados Unidos vs Paraguay 🇵🇾<br><span style="color:var(--muted);font-size:11px;">Vie 12 Jun · 10:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-usa1h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-usa1a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇺🇸 Estados Unidos vs Australia 🇦🇺<br><span style="color:var(--muted);font-size:11px;">Vie 19 Jun · 4:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-usa2h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-usa2a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px;">🇹🇷 Turquía vs Estados Unidos 🇺🇸<br><span style="color:var(--muted);font-size:11px;">Jue 25 Jun · 11:00 PM ECU</span></label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+              <input type="number" id="real-usa3h" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
+              <span style="font-size:18px;font-weight:900;color:var(--muted);">:</span>
+              <input type="number" id="real-usa3a" min="0" max="20" value="" placeholder="0" style="width:60px;text-align:center;font-size:20px;font-weight:900;padding:6px;">
             </div>
           </div>
         </div>
@@ -912,17 +1018,26 @@ function actualizarCamposCedula(){
 var pais=document.getElementById("reg-pais").value;
 var input=document.getElementById("reg-cedula");
 var hint=document.getElementById("cedula-hint");
+var lbl=document.getElementById("cedula-label");
 if(pais==='Ecuador'){
   input.maxLength=10;
   input.placeholder="Ej: 1712345678";
+  if(lbl) lbl.textContent="Número de Cédula *";
   if(hint) hint.textContent="10 dígitos";
 } else if(pais==='Panamá'){
   input.maxLength=8;
   input.placeholder="Ej: 8-123-4567";
+  if(lbl) lbl.textContent="Número de Cédula *";
   if(hint) hint.textContent="7 u 8 dígitos";
+} else if(pais==='Estados Unidos'){
+  input.maxLength=11;
+  input.placeholder="Ej: 123-45-6789";
+  if(lbl) lbl.textContent="Social Security Number (SSN) *";
+  if(hint) hint.textContent="9 dígitos · formato XXX-XX-XXXX";
 } else {
-  input.maxLength=10;
-  input.placeholder="Número de cédula";
+  input.maxLength=11;
+  input.placeholder="Número de identificación";
+  if(lbl) lbl.textContent="Número de Identificación *";
   if(hint) hint.textContent="";
 }
 }
@@ -931,6 +1046,7 @@ function validarCedula(ced, pais){
 ced=ced.replace(/\D/g,'');
 if(pais==='Ecuador') return ced.length===10;
 if(pais==='Panamá')  return ced.length>=7 && ced.length<=8;
+if(pais==='Estados Unidos') return ced.length===9;
 return ced.length>=7 && ced.length<=10;
 }
 
@@ -982,7 +1098,7 @@ var p4=document.getElementById("pred-4").value;
 var alertEl=document.getElementById("alert-registro");
 if(!nombre){showAlert(alertEl,"error","⚠️ Ingresa tu nombre completo.");return;}
 if(!cedula||!validarCedula(cedula,pais)){
-var cedulaMsg=pais==='Ecuador'?'10 dígitos':pais==='Panamá'?'7 u 8 dígitos':'7 a 10 dígitos';
+var cedulaMsg=pais==='Ecuador'?'10 dígitos':pais==='Panamá'?'7 u 8 dígitos':pais==='Estados Unidos'?'SSN de 9 dígitos (XXX-XX-XXXX)':'7 a 10 dígitos';
 showAlert(alertEl,"error","⚠️ Ingresa un número de cédula válido ("+cedulaMsg+").");return;}
 if(!pais){showAlert(alertEl,"error","⚠️ Selecciona tu país.");return;}
 if(!p1||!p2||!p3||!p4){showAlert(alertEl,"error","⚠️ Selecciona los 4 puestos de tu pronóstico.");return;}
@@ -996,12 +1112,13 @@ if(count>=MAX_P){hideLoading();btn.disabled=false;showAlert(alertEl,"error","⚠
 var body={nombre:nombre,contacto:cedula,cedula:cedula,pais:pais,participacion:1,pred1:p1,pred2:p2,pred3:p3,pred4:p4,
 ecu1:scoreVal('ecu1h','ecu1a'),ecu2:scoreVal('ecu2h','ecu2a'),ecu3:scoreVal('ecu3h','ecu3a'),
 pan1:scoreVal('pan1h','pan1a'),pan2:scoreVal('pan2h','pan2a'),pan3:scoreVal('pan3h','pan3a'),
+usa1:scoreVal('usa1h','usa1a'),usa2:scoreVal('usa2h','usa2a'),usa3:scoreVal('usa3h','usa3a'),
 fecha:new Date().toLocaleDateString("es-EC")};
 showLoading("Guardando pronóstico…");
 apiPost(body,function(err2,data2){
 hideLoading();btn.disabled=false;
 if(err2||!data2||!data2.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Intenta de nuevo.");return;}
-showAlert(alertEl,"success","🎉 ¡Pronóstico registrado, "+nombre+"! Máximo posible: 155 pts. ¡Mucha suerte!");
+showAlert(alertEl,"success","🎉 ¡Pronóstico registrado, "+nombre+"! Máximo posible: 170 pts. ¡Mucha suerte!");
 confetti();
 ["reg-nombre","reg-cedula"].forEach(function(id){document.getElementById(id).value="";});
 document.getElementById("reg-pais").value="";
@@ -1052,7 +1169,7 @@ html+='</tbody></table>';
 content.innerHTML=html;
 }
 
-var SCORES={ecu1h:0,ecu1a:0,ecu2h:0,ecu2a:0,ecu3h:0,ecu3a:0,pan1h:0,pan1a:0,pan2h:0,pan2a:0,pan3h:0,pan3a:0};
+var SCORES={ecu1h:0,ecu1a:0,ecu2h:0,ecu2a:0,ecu3h:0,ecu3a:0,pan1h:0,pan1a:0,pan2h:0,pan2a:0,pan3h:0,pan3a:0,usa1h:0,usa1a:0,usa2h:0,usa2a:0,usa3h:0,usa3a:0};
 function scoreVal(hid,aid){
   var h=SCORES[hid]||0, a=SCORES[aid]||0;
   var hMod=SCORES_TOUCHED[hid]||false, aMod=SCORES_TOUCHED[aid]||false;
@@ -1118,7 +1235,7 @@ grid.innerHTML=
 '<div class="stat-card"><div class="stat-number">'+data.length+'</div><div class="stat-label">Colaboradores</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+paises.size+'</div><div class="stat-label">Países</div></div>'+
 '<div class="stat-card"><div class="stat-number">'+conPuntos+'</div><div class="stat-label">Con Puntos</div></div>'+
-'<div class="stat-card"><div class="stat-number">155</div><div class="stat-label">Pts Máx.</div></div>';
+'<div class="stat-card"><div class="stat-number">170</div><div class="stat-label">Pts Máx.</div></div>';
 grid.style.gridTemplateColumns='repeat(4,1fr)';
 }
 
@@ -1150,7 +1267,7 @@ html+='<th>Nombre</th>';
 html+='<th>Cédula</th>';
 html+='<th>País</th>';
 html+='<th>Pronóstico Final</th>';
-html+='<th>Marcadores Ecu/Pan</th>';
+html+='<th>Marcadores Ecu/Pan/USA</th>';
 html+='<th style="text-align:center;">Fecha</th>';
 html+='<th style="text-align:right;">Pts</th>';
 html+='</tr></thead><tbody>';
@@ -1172,6 +1289,9 @@ html+='<td style="font-size:11px;color:var(--muted);white-space:nowrap;"><div st
 '<span>🇬🇭v🇵🇦 '+fmtScore(p.pan1)+'</span>'+
 '<span>🇵🇦v🇭🇷 '+fmtScore(p.pan2)+'</span>'+
 '<span>🇵🇦v🏴󠁧󠁢󠁥󠁮󠁧󠁿 '+fmtScore(p.pan3)+'</span>'+
+'<span>🇺🇸v🇵🇾 '+fmtScore(p.usa1)+'</span>'+
+'<span>🇺🇸v🇦🇺 '+fmtScore(p.usa2)+'</span>'+
+'<span>🇹🇷v🇺🇸 '+fmtScore(p.usa3)+'</span>'+
 '</div></td>';
 html+='<td style="font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;">'+escHtml(p.fecha||'–')+'</td>';
 html+='<td style="text-align:right;"><span class="score-pill">'+(p.puntos||0)+'</span></td>';
@@ -1192,8 +1312,12 @@ var ecu3=getVal("real-ecu3h")+"-"+getVal("real-ecu3a");
 var pan1=getVal("real-pan1h")+"-"+getVal("real-pan1a");
 var pan2=getVal("real-pan2h")+"-"+getVal("real-pan2a");
 var pan3=getVal("real-pan3h")+"-"+getVal("real-pan3a");
+var usa1=getVal("real-usa1h")+"-"+getVal("real-usa1a");
+var usa2=getVal("real-usa2h")+"-"+getVal("real-usa2a");
+var usa3=getVal("real-usa3h")+"-"+getVal("real-usa3a");
 showLoading("Guardando marcadores y recalculando…");
 var body={action:"saveMarcadores",ecu1:ecu1,ecu2:ecu2,ecu3:ecu3,pan1:pan1,pan2:pan2,pan3:pan3,
+usa1:usa1,usa2:usa2,usa3:usa3,
 r1:document.getElementById("res-1").value,
 r2:document.getElementById("res-2").value,
 r3:document.getElementById("res-3").value,
@@ -1222,10 +1346,10 @@ cargarAdminLista();
 function exportarCSV(){
 if(!localData.length){return;}
 var sorted=localData.slice().sort(function(a,b){return(b.puntos||0)-(a.puntos||0);});
-var csv="Pos,Nombre,Cedula,Pais,Campeon,Subcampeon,3ro,4to,MarfilvEcu,EcuvCurazao,EcuvAlemania,GhanavPan,PanvCroacia,PanvInglaterra,Puntos,Fecha\n";
+var csv="Pos,Nombre,Cedula,Pais,Campeon,Subcampeon,3ro,4to,MarfilvEcu,EcuvCurazao,EcuvAlemania,GhanavPan,PanvCroacia,PanvInglaterra,USAvParaguay,USAvAustralia,TurquiavUSA,Puntos,Fecha\n";
 for(var i=0;i<sorted.length;i++){
 var p=sorted[i];
-csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'",'+p.puntos+',"'+p.fecha+'"\n';
+csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'","'+(p.usa1||'0-0')+'","'+(p.usa2||'0-0')+'","'+(p.usa3||'0-0')+'",'+p.puntos+',"'+p.fecha+'"\n';
 }
 var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="pronaca-mundial2026.csv";a.click();
 }
@@ -1294,12 +1418,14 @@ var m=day.m[mi];
 var cardCls="match-card";
 var esEcuador=(m.h==="Ecuador"||m.a==="Ecuador");
 var esPanama=(m.h==="Panamá"||m.a==="Panamá");
-if(m.final)cardCls+=" is-final";else if(m.third)cardCls+=" is-third";else if(esEcuador)cardCls+=" highlight";else if(esPanama)cardCls+=" highlight-pan";
+var esUSA=(m.h==="Estados Unidos"||m.a==="Estados Unidos");
+if(m.final)cardCls+=" is-final";else if(m.third)cardCls+=" is-third";else if(esEcuador)cardCls+=" highlight";else if(esPanama)cardCls+=" highlight-pan";else if(esUSA)cardCls+=" highlight-usa";
 var hf=(FLAGS_CAL[m.h]||"")+" ",af=(FLAGS_CAL[m.a]||"")+" ";
 var grp="";
 var ecuBadge=esEcuador&&!m.final&&!m.third?'<div style="text-align:center;margin-bottom:3px;"><span style="background:#FFE500;color:#4A3000;font-size:9px;font-weight:900;font-family:\'Nunito\',sans-serif;letter-spacing:1px;padding:2px 8px;border-radius:99px;text-transform:uppercase;">🇪🇨 Ecuador</span></div>':'';
 var panBadge=esPanama&&!m.final&&!m.third?'<div style="text-align:center;margin-bottom:3px;"><span style="background:#D21034;color:#fff;font-size:9px;font-weight:900;font-family:\'Nunito\',sans-serif;letter-spacing:1px;padding:2px 8px;border-radius:99px;text-transform:uppercase;">🇵🇦 Panamá</span></div>':'';
-var badge=ecuBadge||panBadge;
+var usaBadge=esUSA&&!m.final&&!m.third?'<div style="text-align:center;margin-bottom:3px;"><span style="background:#1A3A8A;color:#fff;font-size:9px;font-weight:900;font-family:\'Nunito\',sans-serif;letter-spacing:1px;padding:2px 8px;border-radius:99px;text-transform:uppercase;">🇺🇸 USA</span></div>':'';
+var badge=ecuBadge||panBadge||usaBadge;
 html+=badge+'<div class="'+cardCls+'"><div class="match-team right">'+hf+m.h+'</div>';
 html+='<div class="match-center"><div class="match-vs">VS</div>';
 if(m.t)html+='<div class="match-time">'+m.t+' ECU</div>';
