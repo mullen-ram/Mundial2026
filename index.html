@@ -1092,14 +1092,10 @@ renderDeadlineBlock();
 
 function apiGet(params,cb){
 var url=API_URL+"?v="+Date.now();if(params)url+="&"+params;
-var headers={};
-if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
-fetch(url,{headers:headers}).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
+fetch(url).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
 function apiPost(body,cb){
-var headers={"Content-Type":"application/json"};
-if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
-fetch(API_URL,{method:"POST",headers:headers,body:JSON.stringify(body)})
+fetch(API_URL,{method:"POST",body:JSON.stringify(body)})
 .then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
 
