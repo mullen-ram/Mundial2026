@@ -1087,12 +1087,30 @@ el.innerHTML=html;
 renderDeadlineBlock();
 }
 
-function apiGet(params,cb){
-var url=API_URL+"?v="+Date.now();if(params)url+="&"+params;
-var headers={};
-if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
-fetch(url,{headers:headers}).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
+function apiGet(params, cb){
+  var url = API_URL + "?v=" + Date.now();
+  if(params) url += "&" + params;
+
+  var headers = {};
+  if(ADMIN_TOKEN) headers["X-Admin-Token"] = ADMIN_TOKEN;
+
+  fetch(url, { headers: headers })
+    .then(function(r){
+      if(!r.ok){
+        throw new Error("HTTP " + r.status);
+      }
+      return r.json();
+    })
+    .then(function(d){
+      setTimeout(function(){
+        cb(null, d);
+      }, 0);
+    })
+    .catch(function(e){
+      cb(e, null);
+    });
 }
+
 function apiPost(body,cb){
 var headers={"Content-Type":"application/json"};
 if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
@@ -1237,46 +1255,48 @@ fetch("https://mundial2026-api.digital-74b.workers.dev/admin/login",{
 }
 
 function cargarAdminLista(){
-var btn=document.getElementById("btn-refresh");
-if(btn){btn.disabled=true;btn.textContent="⏳ Cargando...";}
-showLoading("Cargando participantes…");
-apiGet("action=getAll",function(err,data){
-hideLoading();
-if(btn){btn.disabled=false;btn.innerHTML="🔄 Actualizar";}
-if(err||!data||!data.ok){
-console.log("ERROR cargarAdminLista", { err: err, data: data });
-document.getElementById("admin-lista").innerHTML='<div class="empty-state"><span class="empty-icon">⚠️</span><p style="font-size:14px;color:var(--muted);">Error al conectar con Google Sheets.<br>Verifica la URL del Apps Script.</p></div>';
-return;
-}
-localData=data.data||[];
-localResultados=data.resultados||{r1:"",r2:"",r3:"",r4:""};
-// Stats
-document.getElementById("stat-participantes").textContent=localData.length;
-// Actualizar stats adicionales
-actualizarStatsAdmin(localData);
-// Resultados
-if(localResultados.r1)document.getElementById("res-1").value=localResultados.r1;
-if(localResultados.r2)document.getElementById("res-2").value=localResultados.r2;
-if(localResultados.r3)document.getElementById("res-3").value=localResultados.r3;
-if(localResultados.r4)document.getElementById("res-4").value=localResultados.r4;
-// Restaurar marcadores reales guardados en los inputs del admin
-var marcFields=['ecu1','ecu2','ecu3','pan1','pan2','pan3','usa1','usa2','usa3'];
-for(var mf=0;mf<marcFields.length;mf++){
-  var mk=marcFields[mf];
-  var mv=localResultados[mk];
-  if(mv!=null && mv!==''){
-    var parts=mv.split('-');
-    var elH=document.getElementById('real-'+mk+'h');
-    var elA=document.getElementById('real-'+mk+'a');
-    if(elH)elH.value=parts[0]||'';
-    if(elA)elA.value=parts[1]||'';
-  }
-}
-// Última actualización
-var upd=document.getElementById("admin-last-update");
-if(upd)upd.textContent="✅ Última actualización: "+new Date().toLocaleString("es-EC");
-renderAdminLista(localData);
-});
+  var btn=document.getElementById("btn-refresh");
+  if(btn){btn.disabled=true;btn.textContent="⏳ Cargando...";}
+  showLoading("Cargando participantes…");
+
+  apiGet("action=getAll",function(err,data){
+    hideLoading();
+    if(btn){btn.disabled=false;btn.innerHTML="🔄 Actualizar";}
+
+    if(err||!data||!data.ok){
+      document.getElementById("admin-lista").innerHTML='<div class="empty-state"><span class="empty-icon">⚠️</span><p style="font-size:14px;color:var(--muted);">Error al conectar con Google Sheets.<br>Verifica la URL del Apps Script.</p></div>';
+      return;
+    }
+
+    localData=data.data||[];
+    localResultados=data.resultados||{r1:"",r2:"",r3:"",r4:""};
+    // Stats
+    document.getElementById("stat-participantes").textContent=localData.length;
+    // Actualizar stats adicionales
+    actualizarStatsAdmin(localData);
+    // Resultados
+    if(localResultados.r1)document.getElementById("res-1").value=localResultados.r1;
+    if(localResultados.r2)document.getElementById("res-2").value=localResultados.r2;
+    if(localResultados.r3)document.getElementById("res-3").value=localResultados.r3;
+    if(localResultados.r4)document.getElementById("res-4").value=localResultados.r4;
+    // Restaurar marcadores reales guardados en los inputs del admin
+    var marcFields=['ecu1','ecu2','ecu3','pan1','pan2','pan3','usa1','usa2','usa3'];
+    for(var mf=0;mf<marcFields.length;mf++){
+      var mk=marcFields[mf];
+      var mv=localResultados[mk];
+      if(mv!=null && mv!==''){
+        var parts=mv.split('-');
+        var elH=document.getElementById('real-'+mk+'h');
+        var elA=document.getElementById('real-'+mk+'a');
+        if(elH)elH.value=parts[0]||'';
+        if(elA)elA.value=parts[1]||'';
+      }
+    }
+    // Última actualización
+    var upd=document.getElementById("admin-last-update");
+    if(upd)upd.textContent="✅ Última actualización: "+new Date().toLocaleString("es-EC");
+    renderAdminLista(localData);
+  });
 }
 
 function actualizarStatsAdmin(data){
