@@ -1292,16 +1292,18 @@ grid.style.gridTemplateColumns='repeat(4,1fr)';
 }
 
 function filtrarAdminLista(){
-  var q = document.getElementById("admin-search").value.toLowerCase().trim();
+  var search=(document.getElementById("admin-search").value||"").toLowerCase();
 
-  var filtrados = adminParticipantes.filter(function(p){
-    var nombre = String(p.nombre || "").toLowerCase();
-    var cedula = String(p.cedula || p.contacto || "").toLowerCase();
+  var filtered=localData.filter(function(p){
+    var matchSearch=!search ||
+      String(p.nombre || "").toLowerCase().includes(search) ||
+      String(p.cedula || p.contacto || "").toLowerCase().includes(search) ||
+      String(p.email || "").toLowerCase().includes(search);
 
-    return nombre.indexOf(q) !== -1 || cedula.indexOf(q) !== -1;
+    return matchSearch;
   });
 
-  renderAdminLista(filtrados);
+  renderAdminLista(filtered,localData.length);
 }
 
 function renderAdminLista(participants,total){
