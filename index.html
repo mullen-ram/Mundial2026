@@ -1244,6 +1244,7 @@ apiGet("action=getAll",function(err,data){
 hideLoading();
 if(btn){btn.disabled=false;btn.innerHTML="🔄 Actualizar";}
 if(err||!data||!data.ok){
+console.log("ERROR cargarAdminLista", { err: err, data: data });
 document.getElementById("admin-lista").innerHTML='<div class="empty-state"><span class="empty-icon">⚠️</span><p style="font-size:14px;color:var(--muted);">Error al conectar con Google Sheets.<br>Verifica la URL del Apps Script.</p></div>';
 return;
 }
