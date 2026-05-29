@@ -951,8 +951,8 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 
 </div>
 <script>
-var API_URL = "{{API_URL}}";
-var ADMIN_PASSWORD = "{{ADMIN_PASS}}";
+var API_URL = "https://mundial2026-api.digital-74b.workers.dev/api";
+var ADMIN_TOKEN = null;
 var MAX_P = 1;
 var PUNTOS = {1:65,2:30,3:20,4:10};
 var FECHA_TOPE = new Date("2026-06-11T00:00:00-05:00");
@@ -1092,10 +1092,14 @@ renderDeadlineBlock();
 
 function apiGet(params,cb){
 var url=API_URL+"?v="+Date.now();if(params)url+="&"+params;
-fetch(url).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
+var headers={};
+if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
+fetch(url,{headers:headers}).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
 function apiPost(body,cb){
-fetch(API_URL,{method:"POST",body:JSON.stringify(body)})
+var headers={"Content-Type":"application/json"};
+if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
+fetch(API_URL,{method:"POST",headers:headers,body:JSON.stringify(body)})
 .then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
 
@@ -1213,14 +1217,30 @@ function changeScore(id,delta){
 
 function loginAdmin(){
 var pass=document.getElementById("admin-pass").value;
-if(pass===ADMIN_PASSWORD){
-document.getElementById("admin-login-card").style.display="none";
-document.getElementById("admin-panel").style.display="block";
-cargarAdminLista();
-}else{showAlert(document.getElementById("alert-admin"),"error","❌ Contraseña incorrecta.");}
+var alertEl=document.getElementById("alert-admin");
+showLoading("Verificando...");
+fetch("https://mundial2026-api.digital-74b.workers.dev/admin/login",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({password:pass})
+}).then(function(r){return r.json();}).then(function(data){
+  hideLoading();
+  if(data.ok){
+    ADMIN_TOKEN=data.token;
+    document.getElementById("admin-login-card").style.display="none";
+    document.getElementById("admin-panel").style.display="block";
+    cargarAdminLista();
+  }else{
+    showAlert(alertEl,"error","❌ Contraseña incorrecta.");
+  }
+}).catch(function(){
+  hideLoading();
+  showAlert(alertEl,"error","⚠️ Error de conexión. Intenta de nuevo.");
+});
 }
 
 function cargarAdminLista(){
+if(!ADMIN_TOKEN){console.warn("Acceso denegado.");return;}
 var btn=document.getElementById("btn-refresh");
 if(btn){btn.disabled=true;btn.textContent="⏳ Cargando...";}
 showLoading("Cargando participantes…");
