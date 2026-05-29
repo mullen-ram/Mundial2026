@@ -1092,19 +1092,13 @@ renderDeadlineBlock();
 
 function apiGet(params,cb){
 var url=API_URL+"?v="+Date.now();if(params)url+="&"+params;
-fetch(url).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
-}
-function apiPost(body,cb){
-fetch(API_URL,{method:"POST",body:JSON.stringify(body)})
-.then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
-}
-function apiGetAdmin(params,cb){
-var url=API_URL+"?v="+Date.now();if(params)url+="&"+params;
-var headers={"X-Admin-Token":ADMIN_TOKEN};
+var headers={};
+if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
 fetch(url,{headers:headers}).then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
-function apiPostAdmin(body,cb){
-var headers={"Content-Type":"application/json","X-Admin-Token":ADMIN_TOKEN};
+function apiPost(body,cb){
+var headers={"Content-Type":"application/json"};
+if(ADMIN_TOKEN)headers["X-Admin-Token"]=ADMIN_TOKEN;
 fetch(API_URL,{method:"POST",headers:headers,body:JSON.stringify(body)})
 .then(function(r){return r.json();}).then(function(d){cb(null,d);}).catch(function(e){cb(e,null);});
 }
@@ -1246,11 +1240,10 @@ fetch("https://mundial2026-api.digital-74b.workers.dev/admin/login",{
 }
 
 function cargarAdminLista(){
-if(!ADMIN_TOKEN){console.warn("Acceso denegado.");return;}
 var btn=document.getElementById("btn-refresh");
 if(btn){btn.disabled=true;btn.textContent="⏳ Cargando...";}
 showLoading("Cargando participantes…");
-apiGetAdmin("action=getAll",function(err,data){
+apiGet("action=getAll",function(err,data){
 hideLoading();
 if(btn){btn.disabled=false;btn.innerHTML="🔄 Actualizar";}
 if(err||!data||!data.ok){
@@ -1385,7 +1378,7 @@ r1:document.getElementById("res-1").value,
 r2:document.getElementById("res-2").value,
 r3:document.getElementById("res-3").value,
 r4:document.getElementById("res-4").value};
-apiPostAdmin(body,function(err,data){
+apiPost(body,function(err,data){
 hideLoading();
 if(err||!data||!data.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Verifica la conexión.");return;}
 // Actualizar localResultados de inmediato con los marcadores guardados
@@ -1414,7 +1407,7 @@ function guardarResultados(){
 var r1=document.getElementById("res-1").value;var r2=document.getElementById("res-2").value;
 var r3=document.getElementById("res-3").value;var r4=document.getElementById("res-4").value;
 showLoading("Guardando y recalculando…");
-apiPostAdmin({action:"saveResultados",r1:r1,r2:r2,r3:r3,r4:r4},function(err,data){
+apiPost({action:"saveResultados",r1:r1,r2:r2,r3:r3,r4:r4},function(err,data){
 hideLoading();var alertEl=document.getElementById("alert-resultado");
 if(err||!data||!data.ok){showAlert(alertEl,"error","⚠️ Error al guardar. Intenta de nuevo.");return;}
 if(r1)localResultados.r1=r1;if(r2)localResultados.r2=r2;
