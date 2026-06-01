@@ -1217,7 +1217,7 @@ var cls=pos===1?"rank-1":pos===2?"rank-2":pos===3?"rank-3":"rank-n";
 var medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
 html+='<tr class="rank-row">';
 html+='<td class="rank-pos '+cls+'" style="text-align:center">'+medal+'</td>';
-html+='<td><div class="p-name">'+escHtml(p.nombre||'')+'</div><div class="p-sub">'+escHtml(p.fecha||'')+'</div></td>';
+html+='<td><div class="p-name">'+escHtml(truncarNombre(p.nombre, 60))+'</div><div class="p-sub">'+escHtml(p.fecha||'')+'</div></td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'')+'</span></div></td>';
 html+='<td style="text-align:right"><span class="score-pill">'+calcularPuntosLocal(p,localResultados)+'</span></td>';
 html+='</tr>';
@@ -1401,6 +1401,10 @@ function escHtml(s){
     .replace(/'/g,'&#x27;')
     .replace(/\//g,'&#x2F;')
     .replace(/`/g,'&#x60;');
+}
+function truncarNombre(s, max){
+  s = String(s||'');
+  return s.length > max ? s.slice(0, max) + '…' : s;
 }
 function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
 
