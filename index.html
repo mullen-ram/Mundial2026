@@ -476,7 +476,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       <div class="form-grid" style="margin-bottom:14px;">
         <div class="form-group">
           <label>Nombre completo *</label>
-          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez">
+          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez" maxlength="60">
         </div>
         <div class="form-group">
           <label id="cedula-label">Número de Cédula *</label>
@@ -1138,6 +1138,12 @@ var p2=document.getElementById("pred-2").value;
 var p3=document.getElementById("pred-3").value;
 var p4=document.getElementById("pred-4").value;
 var alertEl=document.getElementById("alert-registro");
+// Sanitizar nombre: solo letras, espacios, tildes, guiones y apóstrofes
+var nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'\-\.]{2,60}$/;
+if(!nombreRegex.test(nombre)){
+  showAlert(alertEl,"error","⚠️ El nombre solo puede contener letras y espacios (máximo 60 caracteres).");
+  return;
+}
 if(!nombre){showAlert(alertEl,"error","⚠️ Ingresa tu nombre completo.");return;}
 if(!cedula||!validarCedula(cedula,pais)){
 var cedulaMsg=pais==='Ecuador'?'10 dígitos':pais==='Panamá'?'7 u 8 dígitos':pais==='Estados Unidos'?'SSN de 9 dígitos (XXX-XX-XXXX)':'7 a 10 dígitos';
@@ -1377,7 +1383,16 @@ html+='</tbody></table></div>';
 el.innerHTML=html;
 }
 
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escHtml(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#x27;')
+    .replace(/\//g,'&#x2F;')
+    .replace(/`/g,'&#x60;');
+}
 function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
 
 function guardarMarcadoresReales(){
