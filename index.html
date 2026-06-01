@@ -1204,10 +1204,10 @@ var hasR=resultados&&(resultados.r1||resultados.r2||resultados.r3||resultados.r4
 var html="";
 if(hasR){
 html+='<div class="results-banner"><span class="rb-label">Resultados</span><div class="rb-items">';
-html+='<span class="rb-item">🥇 '+(resultados.r1||"–")+'</span>';
-html+='<span class="rb-item">🥈 '+(resultados.r2||"–")+'</span>';
-html+='<span class="rb-item">🥉 '+(resultados.r3||"–")+'</span>';
-html+='<span class="rb-item">4️⃣ '+(resultados.r4||"–")+'</span>';
+html+='<span class="rb-item">🥇 '+escHtml(resultados.r1||"–")+'</span>';
+html+='<span class="rb-item">🥈 '+escHtml(resultados.r2||"–")+'</span>';
+html+='<span class="rb-item">🥉 '+escHtml(resultados.r3||"–")+'</span>';
+html+='<span class="rb-item">4️⃣ '+escHtml(resultados.r4||"–")+'</span>';
 html+='</div></div>';
 }
 html+='<table class="ranking-table"><thead><tr><th style="text-align:center">#</th><th>Colaborador</th><th>Pronóstico</th><th style="text-align:right">Pts</th></tr></thead><tbody>';
@@ -1217,8 +1217,8 @@ var cls=pos===1?"rank-1":pos===2?"rank-2":pos===3?"rank-3":"rank-n";
 var medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
 html+='<tr class="rank-row">';
 html+='<td class="rank-pos '+cls+'" style="text-align:center">'+medal+'</td>';
-html+='<td><div class="p-name">'+p.nombre+'</div><div class="p-sub">'+(p.fecha||'')+'</div></td>';
-html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+p.pred1+'</span><span class="mini-tag mini-2">🥈 '+p.pred2+'</span><span class="mini-tag mini-3">🥉 '+p.pred3+'</span><span class="mini-tag mini-4">4️⃣ '+p.pred4+'</span></div></td>';
+html+='<td><div class="p-name">'+escHtml(p.nombre||'')+'</div><div class="p-sub">'+escHtml(p.fecha||'')+'</div></td>';
+html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'')+'</span></div></td>';
 html+='<td style="text-align:right"><span class="score-pill">'+calcularPuntosLocal(p,localResultados)+'</span></td>';
 html+='</tr>';
 }
