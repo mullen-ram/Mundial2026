@@ -476,7 +476,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
       <div class="form-grid" style="margin-bottom:14px;">
         <div class="form-group">
           <label>Nombre completo *</label>
-          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez" maxlength="60">
+          <input type="text" id="reg-nombre" placeholder="Ej: Carlos Rodríguez" maxlength="60" oninput="filtrarNombre(this)">
         </div>
         <div class="form-group">
           <label id="cedula-label">Número de Cédula *</label>
@@ -1072,6 +1072,15 @@ return ced.length>=7 && ced.length<=10;
 
 function validarEmail(email){
 return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function filtrarNombre(input){
+  var pos = input.selectionStart;
+  var limpio = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'\-\.]/g, '');
+  if(limpio !== input.value){
+    input.value = limpio;
+    input.setSelectionRange(pos - 1, pos - 1);
+  }
 }
 
 function init(){
