@@ -1000,10 +1000,9 @@ function calcularPuntosLocal(p, res){
   ];
   for(var i=0;i<matches.length;i++){
     var campo=matches[i][0];
-    var realVal=res[campo];
-    var predVal=p[campo];
-    // 0-0 es marcador válido — solo excluir null/undefined/string vacío
-    if(realVal!=null && realVal!=='' && predVal!=null && predVal!=='' && String(realVal)===String(predVal)) pts+=5;
+    var realVal=String(res[campo]||'').replace(/^M/,'');
+    var predVal=String(p[campo]||'').replace(/^M/,'');
+    if(realVal!=='' && predVal!=='' && realVal===predVal) pts+=5;
   }
   return pts;
 }
@@ -1406,7 +1405,14 @@ function truncarNombre(s, max){
   s = String(s||'');
   return s.length > max ? s.slice(0, max) + '…' : s;
 }
-function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
+function fmtScore(s){
+  if(!s||s==='') return '<span style="color:var(--muted)">–</span>';
+  var raw=String(s).replace(/^M/,'');
+  var p=raw.split('-');
+  if(p.length===2 && /^\d{1,2}$/.test(p[0].trim()) && /^\d{1,2}$/.test(p[1].trim()))
+    return '<strong>'+p[0].trim()+' : '+p[1].trim()+'</strong>';
+  return '<span style="color:var(--muted)">–</span>';
+}
 
 function guardarMarcadoresReales(){
 var alertEl=document.getElementById("alert-marcadores");
