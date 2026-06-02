@@ -1406,7 +1406,13 @@ function truncarNombre(s, max){
   s = String(s||'');
   return s.length > max ? s.slice(0, max) + '…' : s;
 }
-function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
+function fmtScore(s){
+  if(!s||s==='') return '<span style="color:var(--muted)">–</span>';
+  var p=String(s).split('-');
+  if(p.length===2 && /^\d{1,2}$/.test(p[0].trim()) && /^\d{1,2}$/.test(p[1].trim()))
+    return '<strong>'+p[0].trim()+' : '+p[1].trim()+'</strong>';
+  return '<span style="color:var(--muted)">–</span>';
+}
 
 function guardarMarcadoresReales(){
 var alertEl=document.getElementById("alert-marcadores");
