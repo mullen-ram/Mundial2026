@@ -1217,7 +1217,7 @@ var cls=pos===1?"rank-1":pos===2?"rank-2":pos===3?"rank-3":"rank-n";
 var medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
 html+='<tr class="rank-row">';
 html+='<td class="rank-pos '+cls+'" style="text-align:center">'+medal+'</td>';
-html+='<td><div class="p-name">'+escHtml(truncarNombre(p.nombre||'–', 60))+'</div><div class="p-sub">'+escHtml(p.fecha||'')+'</div></td>';
+html+='<td><div class="p-name">'+escHtml(p.nombre||'')+'</div><div class="p-sub">'+escHtml(p.fecha||'')+'</div></td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'')+'</span></div></td>';
 html+='<td style="text-align:right"><span class="score-pill">'+calcularPuntosLocal(p,localResultados)+'</span></td>';
 html+='</tr>';
@@ -1369,7 +1369,7 @@ var posColor=pos===1?"var(--gold)":pos===2?"var(--silver)":pos===3?"var(--bronze
 var medal=pos===1?"🥇":pos===2?"🥈":pos===3?"🥉":pos;
 html+='<tr class="rank-row" style="border-left:3px solid '+(pos<=3?posColor:'transparent')+'">';
 html+='<td style="font-family:\'Nunito\',sans-serif;font-size:'+(pos<=3?'18':'14')+'px;font-weight:900;text-align:center;color:'+posColor+';">'+medal+'</td>';
-html+='<td><strong style="font-family:\'Nunito\',sans-serif;font-size:14px;">'+escHtml(truncarNombre(p.nombre||'–', 60))+'</strong></td>';
+html+='<td><strong style="font-family:\'Nunito\',sans-serif;font-size:14px;">'+escHtml(p.nombre||'–')+'</strong></td>';
 html+='<td style="font-size:12px;color:var(--muted);white-space:nowrap;">'+escHtml(p.cedula||p.contacto||'–')+'</td>';
 html+='<td style="font-size:12px;color:var(--text2);white-space:nowrap;">'+escHtml(p.pais||'–')+'</td>';
 html+='<td><div class="prediction-mini"><span class="mini-tag mini-1">🥇 '+escHtml(p.pred1||'?')+'</span><span class="mini-tag mini-2">🥈 '+escHtml(p.pred2||'?')+'</span><span class="mini-tag mini-3">🥉 '+escHtml(p.pred3||'?')+'</span><span class="mini-tag mini-4">4️⃣ '+escHtml(p.pred4||'?')+'</span></div></td>';
@@ -1401,10 +1401,6 @@ function escHtml(s){
     .replace(/'/g,'&#x27;')
     .replace(/\//g,'&#x2F;')
     .replace(/`/g,'&#x60;');
-}
-function truncarNombre(s, max){
-  s = String(s||'');
-  return s.length > max ? s.slice(0, max) + '…' : s;
 }
 function fmtScore(s){if(!s||s==='')return '<span style="color:var(--muted)">–</span>';var p=String(s).split('-');if(p.length===2)return '<strong>'+p[0]+' : '+p[1]+'</strong>';return escHtml(s);}
 
@@ -1466,24 +1462,13 @@ cargarAdminLista();
 });
 }
 
-function sanitizarCSV(val) {
-  var s = String(val || '');
-  // Neutralizar caracteres que Excel interpreta como fórmulas
-  if (s.match(/^[=+\-@\t\r]/)) {
-    s = "'" + s;
-  }
-  // Escapar comillas dobles dentro del valor
-  s = s.replace(/"/g, '""');
-  return s;
-}
-
 function exportarCSV(){
 if(!localData.length){return;}
 var sorted=localData.slice().sort(function(a,b){return calcularPuntosLocal(b,localResultados)-calcularPuntosLocal(a,localResultados);});
 var csv="Pos,Nombre,Cedula,Pais,Campeon,Subcampeon,3ro,4to,MarfilvEcu,EcuvCurazao,EcuvAlemania,GhanavPan,PanvCroacia,PanvInglaterra,USAvParaguay,USAvAustralia,TurquiavUSA,Puntos,Fecha\n";
 for(var i=0;i<sorted.length;i++){
 var p=sorted[i];
-csv+=(i+1)+',"'+sanitizarCSV(p.nombre)+'","'+sanitizarCSV(p.cedula||p.contacto||'')+'","'+sanitizarCSV(p.pais||'')+'","'+sanitizarCSV(p.pred1)+'","'+sanitizarCSV(p.pred2)+'","'+sanitizarCSV(p.pred3)+'","'+sanitizarCSV(p.pred4)+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'","'+(p.usa1||'0-0')+'","'+(p.usa2||'0-0')+'","'+(p.usa3||'0-0')+'",'+calcularPuntosLocal(p,localResultados)+',"'+sanitizarCSV(p.fecha)+'"\n';
+csv+=(i+1)+',"'+p.nombre+'","'+(p.cedula||p.contacto||'')+'","'+(p.pais||'')+'","'+p.pred1+'","'+p.pred2+'","'+p.pred3+'","'+p.pred4+'","'+(p.ecu1||'0-0')+'","'+(p.ecu2||'0-0')+'","'+(p.ecu3||'0-0')+'","'+(p.pan1||'0-0')+'","'+(p.pan2||'0-0')+'","'+(p.pan3||'0-0')+'","'+(p.usa1||'0-0')+'","'+(p.usa2||'0-0')+'","'+(p.usa3||'0-0')+'",'+calcularPuntosLocal(p,localResultados)+',"'+p.fecha+'"\n';
 }
 var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="pronaca-mundial2026.csv";a.click();
 }
