@@ -1000,8 +1000,9 @@ function calcularPuntosLocal(p, res){
   ];
   for(var i=0;i<matches.length;i++){
     var campo=matches[i][0];
-    var realVal=String(res[campo]||'').replace(/^M/,'');
-    var predVal=String(p[campo]||'').replace(/^M/,'');
+    // normalizar: quitar M y convertir ~ a - para comparar
+    var realVal=String(res[campo]||'').replace(/^M/,'').replace('~','-');
+    var predVal=String(p[campo]||'').replace(/^M/,'').replace('~','-');
     if(realVal!=='' && predVal!=='' && realVal===predVal) pts+=5;
   }
   return pts;
@@ -1407,8 +1408,12 @@ function truncarNombre(s, max){
 }
 function fmtScore(s){
   if(!s||s==='') return '<span style="color:var(--muted)">–</span>';
-  var raw=String(s).replace(/^M/,'');
-  var p=raw.split('-');
+  var raw = String(s).replace(/^M/, '');
+  var p = raw.split('~');
+  if(p.length===2 && /^\d{1,2}$/.test(p[0].trim()) && /^\d{1,2}$/.test(p[1].trim()))
+    return '<strong>'+p[0].trim()+' : '+p[1].trim()+'</strong>';
+  // compatibilidad con registros viejos con guion
+  p = raw.split('-');
   if(p.length===2 && /^\d{1,2}$/.test(p[0].trim()) && /^\d{1,2}$/.test(p[1].trim()))
     return '<strong>'+p[0].trim()+' : '+p[1].trim()+'</strong>';
   return '<span style="color:var(--muted)">–</span>';
@@ -1474,11 +1479,11 @@ cargarAdminLista();
 
 function sanitizarCSV(val) {
   var s = String(val || '');
-  // Neutralizar caracteres que Excel interpreta como fórmulas
+  // Convertir ~ de vuelta a - para legibilidad en CSV
+  s = s.replace(/^M/, '').replace('~', '-');
   if (s.match(/^[=+\-@\t\r]/)) {
     s = "'" + s;
   }
-  // Escapar comillas dobles dentro del valor
   s = s.replace(/"/g, '""');
   return s;
 }
